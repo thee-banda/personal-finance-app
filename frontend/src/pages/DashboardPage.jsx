@@ -23,7 +23,7 @@ function App() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white p-4 rounded shadow">
-            <IncomeInput onSetIncome={setIncome} />
+            <IncomeInput setIncome={setIncome} setTarget={setTarget} />
             <ExpenseForm onAddExpense={addExpense} />
           </div>
           <div className="bg-white p-4 rounded shadow">
