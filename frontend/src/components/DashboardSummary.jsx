@@ -5,6 +5,7 @@ function DashboardSummary({ income, expenses, target }) {
     ? Math.min(100, ((balance / target) * 100).toFixed(0))
     : 0;
 
+
   return (
     <div className="bg-white shadow-md rounded p-4 w-full max-w-md text-center">
       <p>รายรับ: {income} บาท</p>
