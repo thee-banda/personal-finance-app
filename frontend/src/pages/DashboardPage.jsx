@@ -3,6 +3,7 @@ import IncomeInput from "../components/IncomeInput";
 import ExpenseForm from "../components/ExpenseForm";
 import ExpenseTable from "../components/ExpenseTable";
 import DashboardSummary from "../components/DashboardSummary";
+import FinancePieChart from "../components/FinancePieChart";
 
 function App() {
   const [income, setIncome] = useState(0);
@@ -65,7 +66,9 @@ function App() {
               income={income}
               expenses={expenses}
               target={target}
+              
             />
+            <FinancePieChart income={income} expenses={expenses} />
           </div>
           <div className="bg-white p-4 rounded shadow md:col-span-2">
             <ExpenseTable expenses={expenses} />
