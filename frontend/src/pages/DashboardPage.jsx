@@ -11,6 +11,10 @@ function App() {
   const [target, setTarget] = useState(0);
   const [expenses, setExpenses] = useState([]);
 
+  // history stacks
+  const [history, setHistory] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+
   // โหลดค่าจาก localStorage
   useEffect(() => {
     const savedIncome = localStorage.getItem("income");
@@ -30,13 +34,44 @@ function App() {
     [expenses]
   );
 
-  const addExpense = (expense) => setExpenses([...expenses, expense]);
+  const saveHistory = () => {
+    setHistory((prev) => [...prev, { income, target, expenses }]);
+    setRedoStack([]); // reset redo เมื่อมีการเปลี่ยนใหม่
+  };
+
+  const addExpense = (expense) => {
+    saveHistory();
+    setExpenses([...expenses, expense]);
+  };
 
   const handleReset = () => {
+    saveHistory();
     localStorage.clear();
     setIncome(0);
     setTarget(0);
     setExpenses([]);
+  };
+
+  const handleUndo = () => {
+    if (history.length === 0) return;
+    const lastState = history[history.length - 1];
+    setHistory((prev) => prev.slice(0, -1));
+    setRedoStack((prev) => [...prev, { income, target, expenses }]);
+
+    setIncome(lastState.income);
+    setTarget(lastState.target);
+    setExpenses(lastState.expenses);
+  };
+
+  const handleRedo = () => {
+    if (redoStack.length === 0) return;
+    const lastRedo = redoStack[redoStack.length - 1];
+    setRedoStack((prev) => prev.slice(0, -1));
+    setHistory((prev) => [...prev, { income, target, expenses }]);
+
+    setIncome(lastRedo.income);
+    setTarget(lastRedo.target);
+    setExpenses(lastRedo.expenses);
   };
 
   return (
@@ -70,20 +105,30 @@ function App() {
             </div>
           </div>
 
-          {/* Right Column: Summary + Chart */}
-          <div className="col-span-2 flex flex-col gap-6">
+          {/* Right Column: Summary + Chart รวมกัน */}
+          <div className="col-span-2">
             <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-              <DashboardSummary
-                income={income}
-                expenses={expenses}
-                target={target}
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                {/* Summary (ซ้าย) */}
+                <div>
+                  <DashboardSummary
+                    income={income}
+                    expenses={expenses}
+                    target={target}
+                  />
+                </div>
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-              <FinancePieChart income={income} expenses={expenses} />
+                {/* Chart (ขวา) */}
+                <div>
+                  <h2 className="text-lg font-semibold mb-4 text-center text-gray-700 dark:text-gray-200">
+                    Finance Summary
+                  </h2>
+                  <FinancePieChart income={income} expenses={expenses} />
+                </div>
+              </div>
             </div>
           </div>
+
         </div>
 
         {/* Expense Table */}
@@ -94,11 +139,30 @@ function App() {
           <ExpenseTable expenses={expenses} />
         </div>
 
-        {/* Reset Button */}
-        <div className="flex justify-center mt-10">
+        {/* Action Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <button
+            onClick={handleUndo}
+            disabled={history.length === 0}
+            className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-white"
+          >
+            ⬅️ Undo
+          </button>
+
+          <button
+            onClick={handleRedo}
+            disabled={redoStack.length === 0}
+            className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white"
+          >
+            Redo ➡️
+          </button>
+
           <button
             onClick={handleReset}
-            className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg shadow-md transition"
+            className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-red-500 hover:bg-red-600 text-white"
           >
             Reset Data
           </button>

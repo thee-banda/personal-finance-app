@@ -11,6 +11,10 @@ function App() {
   const [target, setTarget] = useState(0);
   const [expenses, setExpenses] = useState([]);
 
+  // history stacks
+  const [history, setHistory] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
+
   // โหลดค่าจาก localStorage
   useEffect(() => {
     const savedIncome = localStorage.getItem("income");
@@ -30,13 +34,53 @@ function App() {
     [expenses]
   );
 
-  const addExpense = (expense) => setExpenses([...expenses, expense]);
+  const saveHistory = () => {
+    setHistory((prev) => [
+      ...prev,
+      { income, target, expenses: [...expenses] }, // ✅ clone expenses
+    ]);
+    setRedoStack([]); // reset redo เมื่อมีการเปลี่ยนใหม่
+  };
+
+  const addExpense = (expense) => {
+    saveHistory();
+    setExpenses([...expenses, expense]);
+  };
 
   const handleReset = () => {
+    saveHistory();
     localStorage.clear();
     setIncome(0);
     setTarget(0);
     setExpenses([]);
+  };
+
+  const handleUndo = () => {
+    if (history.length === 0) return;
+    const lastState = history[history.length - 1];
+    setHistory((prev) => prev.slice(0, -1));
+    setRedoStack((prev) => [
+      ...prev,
+      { income, target, expenses: [...expenses] },
+    ]);
+
+    setIncome(lastState.income);
+    setTarget(lastState.target);
+    setExpenses(lastState.expenses);
+  };
+
+  const handleRedo = () => {
+    if (redoStack.length === 0) return;
+    const lastRedo = redoStack[redoStack.length - 1];
+    setRedoStack((prev) => prev.slice(0, -1));
+    setHistory((prev) => [
+      ...prev,
+      { income, target, expenses: [...expenses] },
+    ]);
+
+    setIncome(lastRedo.income);
+    setTarget(lastRedo.target);
+    setExpenses(lastRedo.expenses);
   };
 
   return (
@@ -45,67 +89,88 @@ function App() {
       <Navbar />
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <main className="max-w-6xl mx-auto px-4 py-10">
         {/* Title */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-blue-600 dark:text-blue-400">
+        <h1 className="text-3xl font-bold text-center mb-12 text-blue-600 dark:text-blue-400">
           Personal Finance Dashboard
         </h1>
 
         {/* Grid layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Left Column: Inputs */}
-          <div className="flex flex-col gap-6">
-            {/* Income + Target */}
-            <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
-              <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
+          <div className="col-span-1 flex flex-col gap-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
                 Set Goals
               </h2>
               <IncomeInput setIncome={setIncome} setTarget={setTarget} />
             </div>
 
-            {/* Add Expense */}
-            <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
-              <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
                 Add Expense
               </h2>
               <ExpenseForm onAddExpense={addExpense} />
             </div>
           </div>
 
-          {/* Right Column: Summary + Chart */}
-          <div className="col-span-1 lg:col-span-2 flex flex-col gap-6">
-            {/* Dashboard Summary */}
-            <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
-              <DashboardSummary
-                income={income}
-                expenses={expenses}
-                target={target}
-              />
-            </div>
+          {/* Right Column: Summary + Chart รวมกัน */}
+          <div className="col-span-2">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                {/* Summary (ซ้าย) */}
+                <div>
+                  <DashboardSummary
+                    income={income}
+                    expenses={expenses}
+                    target={target}
+                  />
+                </div>
 
-            {/* Pie Chart */}
-            <div className="bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
-              <FinancePieChart income={income} expenses={expenses} />
+                {/* Chart (ขวา) */}
+                <div>
+                  <FinancePieChart income={income} expenses={expenses} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Expense Table */}
-        <div className="mt-10 bg-white dark:bg-gray-800 p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
-          <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
+        {/* Expense Table + Action Buttons รวมกัน */}
+        <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
             Expense History
           </h2>
           <ExpenseTable expenses={expenses} />
-        </div>
 
-        {/* Reset Button */}
-        <div className="flex justify-center mt-10">
-          <button
-            onClick={handleReset}
-            className="bg-red-500 hover:bg-red-600 text-white px-6 sm:px-8 py-3 rounded-lg shadow-md transition text-base sm:text-lg font-medium"
-          >
-            Reset Data
-          </button>
+          {/* Action Buttons (อยู่ในการ์ดเดียวกัน) */}
+          <div className="flex flex-wrap justify-center gap-4 mt-6">
+            <button
+              onClick={handleUndo}
+              disabled={history.length === 0}
+              className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-white"
+            >
+              ⬅️ Undo
+            </button>
+
+            <button
+              onClick={handleRedo}
+              disabled={redoStack.length === 0}
+              className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white"
+            >
+              Redo ➡️
+            </button>
+
+            <button
+              onClick={handleReset}
+              className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                       bg-red-500 hover:bg-red-600 text-white"
+            >
+              Reset Data
+            </button>
+          </div>
         </div>
       </main>
     </div>
