@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useI18n } from "../i18n.jsx";
 
 function IncomeForm({ onAddIncome }) {
+  const { t } = useI18n();
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("custom");
@@ -10,19 +12,23 @@ function IncomeForm({ onAddIncome }) {
     e.preventDefault();
     if (!desc || !amount) return;
 
-    // ✅ ถ้าเลือก custom ใช้ค่าที่ user กรอก
     const finalCategory =
       category === "custom" && customCategory.trim()
         ? customCategory
         : category;
 
-    onAddIncome({
-      desc,
-      amount: Number(amount),
-      category: finalCategory,
-    });
+    if (typeof onAddIncome === "function") {
+      onAddIncome({
+        id: Date.now(),
+        type: "income",
+        desc,
+        amount: Number(amount),
+        category: finalCategory,
+      });
+    } else {
+      console.error("onAddIncome is not a function");
+    }
 
-    // reset form
     setDesc("");
     setAmount("");
     setCategory("custom");
@@ -33,14 +39,14 @@ function IncomeForm({ onAddIncome }) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <input
         type="text"
-        placeholder="ชื่อรายรับ"
+        placeholder={t.incomePlaceholder}
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
         className="border rounded px-3 py-2"
       />
       <input
         type="number"
-        placeholder="จำนวนเงิน"
+        placeholder={t.amountPlaceholder}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
         className="border rounded px-3 py-2"
@@ -50,7 +56,7 @@ function IncomeForm({ onAddIncome }) {
           htmlFor="category"
           className="block mb-2 font-medium text-gray-700 dark:text-gray-200"
         >
-          Category
+          {t.category}
         </label>
         <select
           id="category"
@@ -60,17 +66,17 @@ function IncomeForm({ onAddIncome }) {
                      bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
                      focus:ring-2 focus:ring-blue-500"
         >
-          <option value="custom">-- Custom --</option>
-          <option value="salary">💼 เงินเดือน</option>
-          <option value="bonus">🎁 โบนัส</option>
-          <option value="investment">📈 การลงทุน</option>
-          <option value="other">อื่น ๆ</option>
+          <option value="custom">-- {t.custom} --</option>
+          <option value="salary">💼 {t.salary}</option>
+          <option value="bonus">🎁 {t.bonus}</option>
+          <option value="investment">📈 {t.investment}</option>
+          <option value="other">{t.other}</option>
         </select>
 
         {category === "custom" && (
           <input
             type="text"
-            placeholder="กรอกหมวดหมู่เอง..."
+            placeholder={t.customCategoryPlaceholder}
             value={customCategory}
             onChange={(e) => setCustomCategory(e.target.value)}
             className="mt-3 w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
@@ -84,7 +90,7 @@ function IncomeForm({ onAddIncome }) {
         type="submit"
         className="bg-green-500 hover:bg-green-600 text-white rounded px-4 py-2"
       >
-        บันทึกรายรับ
+        {t.saveIncome}
       </button>
     </form>
   );

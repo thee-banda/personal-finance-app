@@ -3,6 +3,7 @@ import IncomeForm from "./components/IncomeForm";
 import IncomeTable from "./components/IncomeTable";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseTable from "./components/ExpenseTable";
+import TransactionTable from "./components/TransactionTable"; 
 import DashboardSummary from "./components/DashboardSummary";
 import Navbar from "./components/Navbar";
 import ToggleCard from "./components/ToggleCard";
@@ -39,8 +40,8 @@ function App() {
 
     if (savedIncome) setIncome(Number(savedIncome));
     if (savedTarget) setTarget(Number(savedTarget));
-    if (savedIncomes) setIncomes(JSON.parse(savedIncomes));
-    if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
+    if (savedIncomes) setIncomes(JSON.parse(savedIncomes) || []);   // ✅ fallback
+    if (savedExpenses) setExpenses(JSON.parse(savedExpenses) || []); // ✅ fallback
   }, []);
 
   // บันทึกลง localStorage
@@ -60,40 +61,50 @@ function App() {
   // --- Income handlers ---
   const addIncome = (incomeItem) => {
     saveHistory();
-    const updated = [...incomes, incomeItem];
+    const item = {
+      ...incomeItem,
+      id: Date.now(),
+      type: "income",
+    };
+    const updated = [...incomes, item];
     setIncomes(updated);
     setIncome(updated.reduce((sum, e) => sum + e.amount, 0));
   };
 
-  const editIncome = (index, updatedIncome) => {
+  const editIncome = (id, updatedIncome) => {
     saveHistory();
-    const updated = incomes.map((e, i) => (i === index ? updatedIncome : e));
+    const updated = incomes.map((e) => (e.id === id ? { ...e, ...updatedIncome } : e));
     setIncomes(updated);
     setIncome(updated.reduce((sum, e) => sum + e.amount, 0));
   };
 
-  const deleteIncome = (index) => {
+  const deleteIncome = (id) => {
     saveHistory();
-    const updated = incomes.filter((_, i) => i !== index);
+    const updated = incomes.filter((e) => e.id !== id);
     setIncomes(updated);
     setIncome(updated.reduce((sum, e) => sum + e.amount, 0));
   };
 
   // --- Expense handlers ---
-  const addExpense = (expense) => {
+  const addExpense = (expenseItem) => {
     saveHistory();
-    setExpenses([...expenses, expense]);
+    const item = {
+      ...expenseItem,
+      id: Date.now(),
+      type: "expense",
+    };
+    setExpenses((prev) => [...prev, item]);
   };
 
-  const editExpense = (index, updatedExpense) => {
+  const editExpense = (id, updatedExpense) => {
     saveHistory();
-    const updated = expenses.map((e, i) => (i === index ? updatedExpense : e));
+    const updated = expenses.map((e) => (e.id === id ? { ...e, ...updatedExpense } : e));
     setExpenses(updated);
   };
 
-  const deleteExpense = (index) => {
+  const deleteExpense = (id) => {
     saveHistory();
-    const updated = expenses.filter((_, i) => i !== index);
+    const updated = expenses.filter((e) => e.id !== id);
     setExpenses(updated);
   };
 
@@ -138,6 +149,12 @@ function App() {
     setExpenses(lastRedo.expenses);
   };
 
+  // ✅ รวมรายรับ + รายจ่าย เรียงตามเวลาที่ submit
+  const transactions = [
+    ...(Array.isArray(incomes) ? incomes : []),
+    ...(Array.isArray(expenses) ? expenses : []),
+  ].sort((a, b) => a.id - b.id);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
       <Navbar />
@@ -146,13 +163,12 @@ function App() {
         <h1 className="text-3xl font-bold text-center mb-12 text-blue-600 dark:text-blue-400">
           Personal Finance Dashboard
         </h1>
+
         {/* ✅ Checkbox Controls */}
         <div className="mb-5">
           <h2 className="font-semibold mb-3">Show / Hide Sections</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[
-              { key: "summary", label: "Finance Summary" },
-            ].map((opt) => (
+            {[{ key: "summary", label: "Finance Summary" }].map((opt) => (
               <ToggleCard
                 key={opt.key}
                 label={opt.label}
@@ -179,117 +195,86 @@ function App() {
             <option value="income">{t.income}</option>
             <option value="expense">{t.expense}</option>
           </select>
+
           {/* Grid layout */}
-<div className="mt-5">
-  {mode === "income" && (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* Income Form (ซ้าย) */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition h-fit">
-        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-          Add Income
-        </h2>
-        <IncomeForm onAddIncome={addIncome} />
-      </div>
+          <div className="mt-5">
+            {mode === "income" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Income Form */}
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition h-fit">
+                  <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                    Add Income
+                  </h2>
+                  <IncomeForm onAddIncome={addIncome} />
+                </div>
 
-      {/* Income History (ขวา) */}
-      {showOptions.incomeHistory && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-            Income History
-          </h2>
-          <div className="h-[500px] overflow-y-auto">
-            <IncomeTable
-              incomes={incomes}
-              onDeleteIncome={deleteIncome}
-              onEditIncome={editIncome}
-            />
+                {/* Income History */}
+                {showOptions.incomeHistory && (
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                      Income History
+                    </h2>
+                    <div className="h-[500px] overflow-y-auto">
+                      <IncomeTable
+                        incomes={incomes}
+                        onDeleteIncome={deleteIncome}
+                        onEditIncome={editIncome}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {mode === "expense" && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Expense Form */}
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+                  <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                    Add Expense
+                  </h2>
+                  <ExpenseForm onAddExpense={addExpense} />
+                </div>
+
+                {/* Expense History */}
+                {showOptions.expenseHistory && (
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                      Expense History
+                    </h2>
+                    <div className="h-[500px] overflow-y-auto">
+                      <ExpenseTable
+                        expenses={expenses}
+                        onDeleteExpense={deleteExpense}
+                        onEditExpense={editExpense}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
-      )}
-    </div>
-  )}
 
-  {mode === "expense" && (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {/* Expense Form (ซ้าย) */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-          Add Expense
-        </h2>
-        <ExpenseForm onAddExpense={addExpense} />
-      </div>
+        {/* ✅ Transaction Table รวม */}
+        <TransactionTable
+          transactions={transactions}
+          onDelete={(tx) => {
+            if (tx.type === "income") {
+              deleteIncome(tx.id);
+            } else {
+              deleteExpense(tx.id);
+            }
+          }}
+          onEdit={(tx) => {
+            if (tx.type === "income") {
+              editIncome(tx.id, tx);
+            } else {
+              editExpense(tx.id, tx);
+            }
+          }}
+        />
 
-      {/* Expense History (ขวา) */}
-      {showOptions.expenseHistory && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-            Expense History
-          </h2>
-          <div className="h-[500px] overflow-y-auto">
-            <ExpenseTable
-              expenses={expenses}
-              onDeleteExpense={deleteExpense}
-              onEditExpense={editExpense}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  )}
-</div>
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-        {/* Expense Table */}
-        {showOptions.expenseHistory && (
-          <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
-            <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-              Expense History
-            </h2>
-            <ExpenseTable
-              expenses={expenses}
-              onDeleteExpense={deleteExpense}
-              onEditExpense={editExpense}
-            />
-
-            {/* Action Buttons */}
-            <div className="flex items-center justify-between mt-6">
-              <button
-                onClick={handleUndo}
-                disabled={history.length === 0}
-                className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                           bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-white"
-              >
-                ⬅️ Undo
-              </button>
-              <button
-                onClick={handleReset}
-                className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                           bg-red-500 hover:bg-red-600 text-white"
-              >
-                Reset Data
-              </button>
-              <button
-                onClick={handleRedo}
-                disabled={redoStack.length === 0}
-                className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                           bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white"
-              >
-                Redo ➡️
-              </button>
-            </div>
-          </div>
-        )}
         {/* ✅ Dashboard Summary Card */}
         {showOptions.summary && (
           <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
@@ -301,7 +286,7 @@ function App() {
               expenses={expenses}
               target={target}
               showSummary={showOptions.summary}
-              showPie={true}  // 🔹 ตอนนี้ pie chart ถูกบังคับเปิดใน summary อยู่แล้ว
+              showPie={true}
             />
           </div>
         )}

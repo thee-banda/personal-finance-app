@@ -6,117 +6,90 @@ function ExpenseForm({ onAddExpense }) {
 
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("fixed");
-  const [customCategory, setCustomCategory] = useState(""); // ✅ state สำหรับ custom
-  const [priority, setPriority] = useState("necessary");
-  const [flexible, setFlexible] = useState(false);
+  const [category, setCategory] = useState("custom");
+  const [customCategory, setCustomCategory] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!desc || !amount) return;
 
-    const finalCategory = category === "custom" ? customCategory : category;
-
-    if (!finalCategory) return; // ป้องกัน user ไม่พิมพ์ custom
+    // ✅ ถ้าเลือก custom ใช้ค่าที่ user กรอก
+    const finalCategory =
+      category === "custom" && customCategory.trim()
+        ? customCategory
+        : category;
 
     onAddExpense({
       desc,
       amount: Number(amount),
       category: finalCategory,
-      priority,
-      flexible,
     });
 
     // reset form
     setDesc("");
     setAmount("");
-    setCategory("fixed");
+    setCategory("custom");
     setCustomCategory("");
-    setPriority("necessary");
-    setFlexible(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      {/* Expense name */}
       <input
         type="text"
-        placeholder={t.placeholderDesc}
+        placeholder={t.expenseNamePlaceholder}
         value={desc}
         onChange={(e) => setDesc(e.target.value)}
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                   bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+        className="border rounded px-3 py-2"
       />
-
-      {/* Amount */}
       <input
         type="number"
-        placeholder={t.placeholderAmount}
+        placeholder={t.amountPlaceholder}
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                   bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+        className="border rounded px-3 py-2"
       />
-
-      {/* Category */}
-      <div className="flex flex-col gap-2">
+      <div className="mb-4">
+        <label
+          htmlFor="category"
+          className="block mb-2 font-medium text-gray-700 dark:text-gray-200"
+        >
+          {t.category}
+        </label>
         <select
+          id="category"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                     focus:ring-2 focus:ring-blue-500"
         >
+          <option value="custom">{t.custom}</option>
           <option value="fixed">{t.categoryFixed}</option>
           <option value="food">{t.categoryFood}</option>
           <option value="entertainment">{t.categoryEntertainment}</option>
           <option value="debt">{t.categoryDebt}</option>
           <option value="health">{t.categoryHealth}</option>
-          <option value="custom">➕ {t.categoryCustom || "Custom"}</option>
+          <option value="other">{t.categoryOther}</option>
         </select>
 
-        {/* ถ้าเลือก custom → แสดง input */}
         {category === "custom" && (
           <input
             type="text"
-            placeholder={t.categoryCustomPlaceholder || "Enter custom category"}
+            placeholder={t.customCategoryPlaceholder}
             value={customCategory}
             onChange={(e) => setCustomCategory(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-blue-400 dark:border-blue-500 
+            className="mt-3 w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
                        bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
                        focus:ring-2 focus:ring-blue-500"
           />
         )}
       </div>
 
-      {/* Priority */}
-      <select
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                   bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
-      >
-        <option value="necessary">{t.priorityNecessary}</option>
-        <option value="important">{t.priorityImportant}</option>
-        <option value="optional">{t.priorityOptional}</option>
-      </select>
-
-      {/* Flexible checkbox */}
-      <label className="flex items-center gap-2">
-        <input
-          type="checkbox"
-          checked={flexible}
-          onChange={(e) => setFlexible(e.target.checked)}
-          className="h-4 w-4"
-        />
-        {t.flexible}
-      </label>
-
-      {/* Add button */}
       <button
         type="submit"
-        className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold"
+        className="bg-red-500 hover:bg-red-600 text-white rounded px-4 py-2"
       >
-        {t.add}
+        {t.addExpense}
       </button>
     </form>
   );

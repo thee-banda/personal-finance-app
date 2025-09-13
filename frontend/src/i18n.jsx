@@ -12,7 +12,8 @@ export function I18nProvider({ children }) {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
-  const t = dictionaries[lang]; // ✅ จะเปลี่ยนทุกครั้งที่ lang เปลี่ยน
+  // ✅ ให้ t เป็น object ของภาษาที่เลือก
+  const t = dictionaries[lang] || en;
 
   return (
     <I18nContext.Provider value={{ lang, setLang, t }}>

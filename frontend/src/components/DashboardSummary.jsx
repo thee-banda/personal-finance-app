@@ -51,29 +51,29 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
   }, [income, totalExpense]);
 
   // ✅ chart data
-  const labels = hasData
-    ? [t.income, t.totalExpenses, ...Object.keys(categoryTotals)]
-    : [t.noData];
+const labels = hasData
+  ? [t.income, t.totalExpenses, ...expenses.map((e) => e.desc)]
+  : [t.noData];
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        data: hasData
-          ? [income, totalExpense, ...Object.values(categoryTotals)]
-          : [1],
-        backgroundColor: hasData
-          ? [
-              gradients[0] || "#22c55e", // income
-              gradients[1] || "#ef4444", // expense
-              ...palette,
-            ]
-          : ["#9ca3af"],
-        borderColor: "#1f2937",
-        borderWidth: 2,
-      },
-    ],
-  };
+const data = {
+  labels,
+  datasets: [
+    {
+      data: hasData
+        ? [income, totalExpense, ...expenses.map((e) => e.amount)]
+        : [1],
+      backgroundColor: hasData
+        ? [
+            gradients[0] || "#22c55e", // income
+            gradients[1] || "#ef4444", // expense
+            ...expenses.map((e) => e.color || "#3b82f6"), // ✅ ใช้สีจาก expenses
+          ]
+        : ["#9ca3af"],
+      borderColor: "#1f2937",
+      borderWidth: 2,
+    },
+  ],
+};
 
   const options = {
     plugins: {
@@ -111,11 +111,10 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
             </span>
           </p>
           <p
-            className={`font-medium ${
-              balance >= 0
+            className={`font-medium ${balance >= 0
                 ? "text-green-600 dark:text-green-400"
                 : "text-red-600 dark:text-red-400"
-            }`}
+              }`}
           >
             {t.balance}:{" "}
             <span className="font-semibold">
@@ -125,11 +124,10 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
           <p className="text-gray-700 dark:text-gray-200 font-medium">
             {t.successChance}:{" "}
             <span
-              className={`font-bold ${
-                successPercent >= 80
+              className={`font-bold ${successPercent >= 80
                   ? "text-green-600 dark:text-green-400"
                   : "text-orange-500 dark:text-orange-400"
-              }`}
+                }`}
             >
               {successPercent}%
             </span>
@@ -143,9 +141,15 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
           <h2 className="text-lg font-bold text-center mb-4">
             {t.financeSummary}
           </h2>
-          <Doughnut ref={chartRef} data={data} options={options} />
+          <Doughnut
+            key={JSON.stringify(data)} // ✅ บังคับ re-render เมื่อ data เปลี่ยน
+            ref={chartRef}
+            data={data}
+            options={options}
+          />
         </div>
       )}
+
     </div>
   );
 }
