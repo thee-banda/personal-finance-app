@@ -36,9 +36,12 @@
   "priorityOptional": "Optional",
   "flexible": "Flexible",
   "add": "Add",
-  "income": "Income",
   "totalExpenses": "Total Expenses",
   "balance": "Remaining Balance",
   "successChance": "Success Chance",
-  "currency": "Baht"
+  "currency": "Baht",
+  "selectMode": "Select Mode",
+  "selectPlaceholder": "-- Please choose --",
+  "income": "Income",
+  "expense": "Expense"
 }

@@ -36,9 +36,12 @@
   "priorityOptional": "ไม่จำเป็น",
   "flexible": "ปรับได้",
   "add": "เพิ่ม",
-  "income": "รายรับ",
   "totalExpenses": "รายจ่ายรวม",
   "balance": "เงินคงเหลือจริง",
   "successChance": "โอกาสบรรลุเป้า",
-  "currency": "บาท"
+  "currency": "บาท",
+  "selectMode": "เลือกโหมด",
+  "selectPlaceholder": "-- กรุณาเลือก --",
+  "income": "รายรับ",
+  "expense": "รายจ่าย"
 }

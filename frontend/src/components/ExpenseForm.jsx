@@ -7,6 +7,7 @@ function ExpenseForm({ onAddExpense }) {
   const [desc, setDesc] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("fixed");
+  const [customCategory, setCustomCategory] = useState(""); // ✅ state สำหรับ custom
   const [priority, setPriority] = useState("necessary");
   const [flexible, setFlexible] = useState(false);
 
@@ -14,10 +15,14 @@ function ExpenseForm({ onAddExpense }) {
     e.preventDefault();
     if (!desc || !amount) return;
 
+    const finalCategory = category === "custom" ? customCategory : category;
+
+    if (!finalCategory) return; // ป้องกัน user ไม่พิมพ์ custom
+
     onAddExpense({
       desc,
       amount: Number(amount),
-      category,
+      category: finalCategory,
       priority,
       flexible,
     });
@@ -26,6 +31,7 @@ function ExpenseForm({ onAddExpense }) {
     setDesc("");
     setAmount("");
     setCategory("fixed");
+    setCustomCategory("");
     setPriority("necessary");
     setFlexible(false);
   };
@@ -53,18 +59,34 @@ function ExpenseForm({ onAddExpense }) {
       />
 
       {/* Category */}
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
-                   bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
-      >
-        <option value="fixed">{t.categoryFixed}</option>
-        <option value="food">{t.categoryFood}</option>
-        <option value="entertainment">{t.categoryEntertainment}</option>
-        <option value="debt">{t.categoryDebt}</option>
-        <option value="health">{t.categoryHealth}</option>
-      </select>
+      <div className="flex flex-col gap-2">
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+        >
+          <option value="fixed">{t.categoryFixed}</option>
+          <option value="food">{t.categoryFood}</option>
+          <option value="entertainment">{t.categoryEntertainment}</option>
+          <option value="debt">{t.categoryDebt}</option>
+          <option value="health">{t.categoryHealth}</option>
+          <option value="custom">➕ {t.categoryCustom || "Custom"}</option>
+        </select>
+
+        {/* ถ้าเลือก custom → แสดง input */}
+        {category === "custom" && (
+          <input
+            type="text"
+            placeholder={t.categoryCustomPlaceholder || "Enter custom category"}
+            value={customCategory}
+            onChange={(e) => setCustomCategory(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg border border-blue-400 dark:border-blue-500 
+                       bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                       focus:ring-2 focus:ring-blue-500"
+          />
+        )}
+      </div>
 
       {/* Priority */}
       <select
