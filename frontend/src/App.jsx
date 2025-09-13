@@ -47,6 +47,12 @@ function App() {
     setExpenses([...expenses, expense]);
   };
 
+  const deleteExpense = (index) => {
+    saveHistory();
+    const updated = expenses.filter((_, i) => i !== index);
+    setExpenses(updated);
+  };
+
   const handleReset = () => {
     saveHistory();
     localStorage.clear();
@@ -141,7 +147,7 @@ function App() {
           <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
             Expense History
           </h2>
-          <ExpenseTable expenses={expenses} />
+          <ExpenseTable expenses={expenses} onDeleteExpense={deleteExpense} />
 
           {/* Action Buttons */}
           <div className="flex items-center justify-between mt-6">
