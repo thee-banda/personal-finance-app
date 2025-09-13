@@ -22,7 +22,7 @@ function App() {
 
   // ✅ state สำหรับ show/hide
   const [showOptions, setShowOptions] = useState({
-    summary: false,
+    summary: true,
     incomeHistory: true,
     expenseHistory: true,
   });
