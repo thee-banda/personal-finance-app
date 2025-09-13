@@ -1,0 +1,19 @@
+{
+  "appTitle": "Personal Finance App",
+  "incomeLabel": "Income",
+  "targetLabel": "Target Balance",
+  "addExpense": "Add Expense",
+  "details": "Details",
+  "amount": "Amount",
+  "category": "Category",
+  "priority": "Priority",
+  "flexible": "Flexible",
+  "save": "Save",
+  "reset": "Reset Data",
+  "summary": {
+    "totalIncome": "Income: {{value}}",
+    "totalExpense": "Total Expense: {{value}}",
+    "balance": "Remaining Balance: {{value}}",
+    "successRate": "Success Chance: {{value}}%"
+  }
+}

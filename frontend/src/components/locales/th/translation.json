@@ -1,0 +1,19 @@
+{
+  "appTitle": "แอพจัดการการเงินส่วนบุคคล",
+  "incomeLabel": "รายรับ",
+  "targetLabel": "เป้าหมายเงินคงเหลือ",
+  "addExpense": "เพิ่มรายจ่าย",
+  "details": "รายละเอียด",
+  "amount": "จำนวนเงิน",
+  "category": "หมวดหมู่",
+  "priority": "ความสำคัญ",
+  "flexible": "ปรับได้",
+  "save": "บันทึก",
+  "reset": "รีเซ็ตข้อมูล",
+  "summary": {
+    "totalIncome": "รายรับ: {{value}} บาท",
+    "totalExpense": "รายจ่ายรวม: {{value}} บาท",
+    "balance": "เงินคงเหลือจริง: {{value}} บาท",
+    "successRate": "โอกาสสำเร็จเป้า: {{value}}%"
+  }
+}
