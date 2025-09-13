@@ -45,25 +45,25 @@ function App() {
       <Navbar />
 
       {/* Main content */}
-      <main className="max-w-6xl mx-auto px-4 py-8 md:py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-blue-600 dark:text-blue-400">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-12 text-blue-600 dark:text-blue-400">
           Personal Finance Dashboard
         </h1>
 
         {/* Grid layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column: Inputs */}
           <div className="col-span-1 flex flex-col gap-6">
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm hover:shadow-md transition">
-              <h2 className="text-md md:text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
+            <div className="bg-white dark:bg-gray-800 p-5 sm:p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
                 Set Goals
               </h2>
               <IncomeInput setIncome={setIncome} setTarget={setTarget} />
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm hover:shadow-md transition">
-              <h2 className="text-md md:text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
+            <div className="bg-white dark:bg-gray-800 p-5 sm:p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
                 Add Expense
               </h2>
               <ExpenseForm onAddExpense={addExpense} />
@@ -71,8 +71,8 @@ function App() {
           </div>
 
           {/* Right Column: Summary + Chart */}
-          <div className="col-span-2 flex flex-col gap-6">
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm hover:shadow-md transition">
+          <div className="col-span-2 flex flex-col gap-6 lg:gap-8">
+            <div className="bg-white dark:bg-gray-800 p-5 sm:p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
               <DashboardSummary
                 income={income}
                 expenses={expenses}
@@ -80,25 +80,25 @@ function App() {
               />
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm hover:shadow-md transition">
+            <div className="bg-white dark:bg-gray-800 p-5 sm:p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition">
               <FinancePieChart income={income} expenses={expenses} />
             </div>
           </div>
         </div>
 
         {/* Expense Table */}
-        <div className="mt-10 bg-white dark:bg-gray-800 p-5 rounded-xl shadow-sm hover:shadow-md transition overflow-x-auto">
-          <h2 className="text-md md:text-lg font-semibold mb-3 text-gray-700 dark:text-gray-200">
+        <div className="mt-10 bg-white dark:bg-gray-800 p-5 sm:p-6 lg:p-8 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
+          <h2 className="text-lg sm:text-xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
             Expense History
           </h2>
           <ExpenseTable expenses={expenses} />
         </div>
 
         {/* Reset Button */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <button
             onClick={handleReset}
-            className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg shadow-md transition"
+            className="bg-red-500 hover:bg-red-600 text-white px-6 sm:px-8 py-3 rounded-lg shadow-md transition text-base sm:text-lg font-medium"
           >
             Reset Data
           </button>

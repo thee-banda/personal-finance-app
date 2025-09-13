@@ -41,28 +41,19 @@ function ExpenseForm({ onAddExpense }) {
       </h2>
 
       {/* Row 1: Description + Amount */}
-      <div className="flex gap-4 flex-wrap">
+      <div className="flex flex-col sm:flex-row gap-4">
         <input
           type="text"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
-                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none 
-                     placeholder-gray-400 dark:placeholder-gray-500"
+          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-base sm:text-lg"
           placeholder={t.placeholderDesc}
         />
         <input
           type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="w-32 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
-                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none 
-                     placeholder-gray-400 dark:placeholder-gray-500"
+          className="w-full sm:w-32 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-base sm:text-lg"
           placeholder={t.placeholderAmount}
         />
       </div>
+
 
       {/* Row 2: Category + Priority */}
       <div className="flex gap-4 flex-wrap">
