@@ -37,7 +37,7 @@ function App() {
   const saveHistory = () => {
     setHistory((prev) => [
       ...prev,
-      { income, target, expenses: [...expenses] }, // ✅ clone expenses
+      { income, target, expenses: [...expenses] },
     ]);
     setRedoStack([]); // reset redo เมื่อมีการเปลี่ยนใหม่
   };
@@ -143,32 +143,35 @@ function App() {
           </h2>
           <ExpenseTable expenses={expenses} />
 
-          {/* Action Buttons (อยู่ในการ์ดเดียวกัน) */}
-          <div className="flex flex-wrap justify-center gap-4 mt-6">
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between mt-6">
+            {/* Undo (ซ้าย) */}
             <button
               onClick={handleUndo}
               disabled={history.length === 0}
               className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                       bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-white"
+                         bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 text-white"
             >
               ⬅️ Undo
             </button>
 
+            {/* Reset (กลาง) */}
+            <button
+              onClick={handleReset}
+              className="px-6 py-2 rounded-lg font-medium shadow-md transition
+                         bg-red-500 hover:bg-red-600 text-white"
+            >
+              Reset Data
+            </button>
+
+            {/* Redo (ขวา) */}
             <button
               onClick={handleRedo}
               disabled={redoStack.length === 0}
               className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                       bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white"
+                         bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white"
             >
               Redo ➡️
-            </button>
-
-            <button
-              onClick={handleReset}
-              className="px-6 py-2 rounded-lg font-medium shadow-md transition
-                       bg-red-500 hover:bg-red-600 text-white"
-            >
-              Reset Data
             </button>
           </div>
         </div>
