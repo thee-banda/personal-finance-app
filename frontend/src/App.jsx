@@ -21,10 +21,9 @@ function App() {
 
   // ✅ state สำหรับ show/hide
   const [showOptions, setShowOptions] = useState({
-    summary: true,
-    pie: true,
-    incomeHistory: true,
-    expenseHistory: true,
+    summary: false,
+    incomeHistory: false,
+    expenseHistory: false,
   });
 
   const toggleOption = (key) => {
