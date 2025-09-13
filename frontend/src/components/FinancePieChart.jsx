@@ -20,17 +20,17 @@ function FinancePieChart({ income, expenses }) {
 
   const hasData = income > 0 || totalExpense > 0;
 
-  // mapping สี category (soft solid)
+  // mapping สี category (solid palette)
   const categoryColors = {
-    food: "#f59e0b",          // เหลือง
-    fixed: "#3b82f6",         // ฟ้า
-    debt: "#8b5cf6",          // ม่วง
-    entertainment: "#ec4899", // ชมพู
-    health: "#14b8a6",        // teal
-    other: "#6b7280"          // เทา
+    food: "#f59e0b",
+    fixed: "#3b82f6",
+    debt: "#8b5cf6",
+    entertainment: "#ec4899",
+    health: "#14b8a6",
+    other: "#6b7280"
   };
 
-  // ✅ Generate gradient color for income & expense
+  // ✅ Gradient colors for Income / Expenses
   useEffect(() => {
     if (chartRef.current) {
       const ctx = chartRef.current.ctx;
@@ -59,13 +59,13 @@ function FinancePieChart({ income, expenses }) {
           : [1],
         backgroundColor: hasData
           ? [
-              gradients[0] || "#22c55e", // income gradient
-              gradients[1] || "#ef4444", // expense gradient
+              gradients[0] || "#22c55e",
+              gradients[1] || "#ef4444",
               ...Object.keys(categoryTotals).map(
                 (cat) => categoryColors[cat] || categoryColors.other
               )
             ]
-          : ["#9ca3af"], // เทา ถ้าไม่มีข้อมูล
+          : ["#9ca3af"],
         borderColor: "#1f2937",
         borderWidth: 2,
       },
@@ -82,6 +82,12 @@ function FinancePieChart({ income, expenses }) {
       },
     },
     maintainAspectRatio: false,
+    animation: {
+      animateRotate: true,
+      animateScale: true,
+      duration: 1200,
+      easing: "easeInOutBounce", // 🎉 bounce effect
+    },
   };
 
   return (
