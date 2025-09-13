@@ -11,7 +11,7 @@ function App() {
   const [target, setTarget] = useState(0);
   const [expenses, setExpenses] = useState([]);
 
-  // โหลดค่าจาก localStorage ตอน mount
+  // โหลดค่าจาก localStorage
   useEffect(() => {
     const savedIncome = localStorage.getItem("income");
     const savedTarget = localStorage.getItem("target");
@@ -22,24 +22,16 @@ function App() {
     if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
   }, []);
 
-  // บันทึก income ลง localStorage
-  useEffect(() => {
-    localStorage.setItem("income", income);
-  }, [income]);
+  // บันทึกลง localStorage
+  useEffect(() => localStorage.setItem("income", income), [income]);
+  useEffect(() => localStorage.setItem("target", target), [target]);
+  useEffect(
+    () => localStorage.setItem("expenses", JSON.stringify(expenses)),
+    [expenses]
+  );
 
-  // บันทึก target ลง localStorage
-  useEffect(() => {
-    localStorage.setItem("target", target);
-  }, [target]);
+  const addExpense = (expense) => setExpenses([...expenses, expense]);
 
-  // บันทึก expenses ลง localStorage
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
-
-  const addExpense = (expense) => {
-    setExpenses([...expenses, expense]);
-  };
   const handleReset = () => {
     localStorage.clear();
     setIncome(0);
@@ -47,47 +39,73 @@ function App() {
     setExpenses([]);
   };
 
-
   return (
-  <div className="min-h-screen bg-gray-100">
-    {/* Navbar */}
-    <Navbar />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
+      {/* Navbar */}
+      <Navbar />
 
-    {/* Main content */}
-    <div className="flex justify-center">
-      <div className="w-full max-w-3xl p-6">
-        <h1 className="text-2xl font-bold text-center mb-6">
-          Personal Finance App
+      {/* Main content */}
+      <main className="max-w-6xl mx-auto px-4 py-10">
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-center mb-12 text-blue-600 dark:text-blue-400">
+          Personal Finance Dashboard
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white p-4 rounded shadow">
-            <IncomeInput setIncome={setIncome} setTarget={setTarget} />
-            <ExpenseForm onAddExpense={addExpense} />
+        {/* Grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Left Column: Inputs */}
+          <div className="col-span-1 flex flex-col gap-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                Set Goals
+              </h2>
+              <IncomeInput setIncome={setIncome} setTarget={setTarget} />
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                Add Expense
+              </h2>
+              <ExpenseForm onAddExpense={addExpense} />
+            </div>
           </div>
-          <div className="bg-white p-4 rounded shadow">
-            <DashboardSummary
-              income={income}
-              expenses={expenses}
-              target={target}
-            />
-            <FinancePieChart income={income} expenses={expenses} />
+
+          {/* Right Column: Summary + Chart */}
+          <div className="col-span-2 flex flex-col gap-6">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <DashboardSummary
+                income={income}
+                expenses={expenses}
+                target={target}
+              />
+            </div>
+
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+              <FinancePieChart income={income} expenses={expenses} />
+            </div>
           </div>
-          <div className="bg-white p-4 rounded shadow md:col-span-2">
-            <ExpenseTable expenses={expenses} />
-          </div>
+        </div>
+
+        {/* Expense Table */}
+        <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+            Expense History
+          </h2>
+          <ExpenseTable expenses={expenses} />
+        </div>
+
+        {/* Reset Button */}
+        <div className="flex justify-center mt-10">
           <button
             onClick={handleReset}
-            className="bg-red-500 text-white px-4 py-2 rounded mt-4"
+            className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg shadow-md transition"
           >
             Reset Data
           </button>
         </div>
-      </div>
+      </main>
     </div>
-  </div>
-);
-
+  );
 }
 
 export default App;

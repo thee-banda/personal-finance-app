@@ -1,4 +1,3 @@
-// src/i18n.jsx
 import { createContext, useContext, useState, useEffect } from "react";
 import en from "./locales/en/translation.json";
 import th from "./locales/th/translation.json";
@@ -13,7 +12,8 @@ export function I18nProvider({ children }) {
     localStorage.setItem("lang", lang);
   }, [lang]);
 
-  const t = dictionaries[lang];
+  const t = dictionaries[lang]; // ✅ จะเปลี่ยนทุกครั้งที่ lang เปลี่ยน
+
   return (
     <I18nContext.Provider value={{ lang, setLang, t }}>
       {children}

@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
+import { useI18n } from "../i18n.jsx";
 
 function Navbar() {
+  const { lang, setLang, t } = useI18n();
   const [pin, setPin] = useState(localStorage.getItem("pin") || "");
-  const [language, setLanguage] = useState(localStorage.getItem("lang") || "EN");
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
-  // บันทึกค่า PIN ทุกครั้งที่เปลี่ยน
+  // เก็บ PIN ลง localStorage
   useEffect(() => {
     localStorage.setItem("pin", pin);
   }, [pin]);
 
-  // บันทึกภาษาทุกครั้งที่เปลี่ยน
+  // apply theme ไปที่ <html>
   useEffect(() => {
-    localStorage.setItem("lang", language);
-  }, [language]);
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   const handlePinChange = (e) => {
     const value = e.target.value.replace(/\D/g, ""); // ตัวเลขเท่านั้น
@@ -22,14 +32,16 @@ function Navbar() {
   };
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "EN" ? "TH" : "EN"));
+    setLang(lang === "EN" ? "TH" : "EN");
   };
 
   return (
-    <nav className="bg-white-600 text-white px-6 py-3 shadow-md">
+    <nav className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-6 py-3 shadow-md transition">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* ชื่อเว็บ */}
-        <h1 className="font-bold text-blue-600 text-lg">Personal Finance</h1>
+        <h1 className="font-bold text-lg text-blue-600 dark:text-blue-400">
+          {t.appName}
+        </h1>
 
         <div className="flex items-center gap-3">
           {/* ช่องใส่ PIN */}
@@ -37,8 +49,8 @@ function Navbar() {
             type="password"
             value={pin}
             onChange={handlePinChange}
-            placeholder="Enter PIN"
-            className="w-32 text-center px-2 py-1 rounded text-black"
+            placeholder={t.pinPlaceholder}
+            className="w-32 text-center px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             maxLength={6}
             inputMode="numeric"
           />
@@ -46,9 +58,18 @@ function Navbar() {
           {/* ปุ่มเปลี่ยนภาษา */}
           <button
             onClick={toggleLanguage}
-            className="bg-white text-blue-600 px-3 py-1 rounded hover:bg-gray-200"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
           >
-            {language}
+            {lang}
+          </button>
+
+          {/* ปุ่ม toggle theme */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            title="Toggle Dark Mode"
+          >
+            {darkMode ? "🌙" : "☀️"}
           </button>
         </div>
       </div>

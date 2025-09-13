@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useI18n } from "../i18n.jsx";  // ✅ import hook
 
 function IncomeInput({ setIncome, setTarget }) {
+  const { t } = useI18n();  // ✅ ใช้ dictionary
   const [incomeValue, setIncomeValue] = useState("");
   const [targetValue, setTargetValue] = useState("");
 
@@ -11,19 +13,19 @@ function IncomeInput({ setIncome, setTarget }) {
 
   return (
     <div className="mb-4">
-      <label className="block mb-1 font-semibold">ระบุรายรับ</label>
+      <label className="block mb-1 font-semibold">{t.incomeLabel}</label>
       <input
         type="number"
-        placeholder="เช่น 20000"
+        placeholder={t.incomePlaceholder}
         value={incomeValue}
         onChange={(e) => setIncomeValue(e.target.value)}
         className="border p-2 rounded w-full mb-2"
       />
 
-      <label className="block mb-1 font-semibold">เป้าหมายเงินคงเหลือ</label>
+      <label className="block mb-1 font-semibold">{t.targetLabel}</label>
       <input
         type="number"
-        placeholder="เช่น 6000"
+        placeholder={t.targetPlaceholder}
         value={targetValue}
         onChange={(e) => setTargetValue(e.target.value)}
         className="border p-2 rounded w-full mb-2"
@@ -33,7 +35,7 @@ function IncomeInput({ setIncome, setTarget }) {
         onClick={handleSave}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
       >
-        บันทึก
+        {t.save}
       </button>
     </div>
   );

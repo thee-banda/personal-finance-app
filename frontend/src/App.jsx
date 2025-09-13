@@ -6,6 +6,9 @@ import DashboardPage from "./pages/DashboardPage";
 function App() {
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
     </Routes>
   );

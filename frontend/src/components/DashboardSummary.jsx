@@ -12,13 +12,13 @@ function DashboardSummary({ income, expenses, target }) {
   return (
     <div className="bg-white shadow-md rounded p-4 w-full max-w-md text-center">
       <p>
-        {t.income}: {income} บาท
+        {t.income}: {income} {t.currency}
       </p>
       <p>
-        {t.totalExpenses}: {totalExpense} บาท
+        {t.totalExpenses}: {totalExpense} {t.currency}
       </p>
       <p className={balance >= 0 ? "text-green-600" : "text-red-600"}>
-        {t.balance}: {balance} บาท
+        {t.balance}: {balance} {t.currency}
       </p>
       <p>
         {t.successChance}:{" "}

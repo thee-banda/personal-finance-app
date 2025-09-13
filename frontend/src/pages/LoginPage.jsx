@@ -10,13 +10,16 @@ function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
+
+    // mock login → บันทึก user ลง localStorage
     localStorage.setItem("user", JSON.stringify({ email }));
     navigate("/dashboard");
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
+    <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow bg-white">
       <h2 className="text-xl font-bold mb-4">{t.login}</h2>
+
       <form onSubmit={handleLogin} className="flex flex-col gap-3">
         <input
           type="email"
@@ -41,8 +44,9 @@ function LoginPage() {
           {t.login}
         </button>
       </form>
+
       <p className="text-sm mt-3">
-        {t.register}?{" "}
+        {t.noAccount}{" "}
         <Link to="/register" className="text-blue-600 underline">
           {t.register}
         </Link>
