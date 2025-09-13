@@ -37,23 +37,50 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
           </tr>
         </thead>
         <tbody>
-  {(transactions || []).map((tx, i) => (
-    <tr key={`${tx.type}-${tx.id}-${i}`} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-      <td className="px-4 py-2">{tx.desc}</td>
-      <td className="px-4 py-2">
-        <span className={tx.type === "income" ? "text-green-600" : "text-red-500"}>
-          {tx.amount.toLocaleString()} {t.currency}
-        </span>
-      </td>
-      <td className="px-4 py-2">{tx.category}</td>
-      <td className="px-4 py-2">
-        {tx.type === "income" ? `💰 ${t.income}` : `💸 ${t.expense}`}
-      </td>
-      <td className="px-4 py-2 flex gap-2"> ... </td>
-    </tr>
-  ))}
-</tbody>
-
+          {(transactions || []).map((tx, i) => (
+            <tr
+              key={`${tx.type}-${tx.id}-${i}`}
+              className="hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <td className="px-4 py-2">{tx.desc}</td>
+              <td className="px-4 py-2">
+                <span
+                  className={
+                    tx.type === "income" ? "text-green-600" : "text-red-500"
+                  }
+                >
+                  {tx.amount.toLocaleString()} {t.currency}
+                </span>
+              </td>
+              <td className="px-4 py-2">{tx.category}</td>
+              <td className="px-4 py-2">
+                {tx.type === "income"
+                  ? `💰 ${t.income}`
+                  : `💸 ${t.expense}`}
+              </td>
+              <td className="px-4 py-2 flex gap-2">
+                {/* ✅ ปุ่ม Edit */}
+                <button
+                  onClick={() => handleEditClick(tx)}
+                  className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  ✏️
+                </button>
+                {/* ✅ ปุ่ม Delete */}
+                <button
+                  onClick={() => {
+                    if (window.confirm(t.confirmDeleteTransaction)) {
+                      onDelete(tx);
+                    }
+                  }}
+                  className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+                >
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
 
       {/* 🔹 Edit Modal */}
@@ -64,7 +91,6 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               {t.edit}
             </h3>
 
-            {/* รายละเอียด */}
             <input
               type="text"
               value={editData.desc}
@@ -73,7 +99,6 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               placeholder={t.details}
             />
 
-            {/* จำนวนเงิน */}
             <input
               type="number"
               value={editData.amount}
@@ -84,7 +109,6 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               placeholder={t.amount}
             />
 
-            {/* หมวดหมู่ */}
             <input
               type="text"
               value={editData.category}
@@ -100,7 +124,6 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               {t.color}
             </label>
             {editData.type === "expense" ? (
-              // ✅ expense → แก้ไขสีได้
               <input
                 type="color"
                 value={editData.color || "#8884d8"}
@@ -110,7 +133,6 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
                 className="w-16 h-10 border rounded mb-3"
               />
             ) : (
-              // 🚫 income → disabled
               <input
                 type="color"
                 value={editData.color || "#8884d8"}
