@@ -22,8 +22,8 @@ function App() {
   // ✅ state สำหรับ show/hide
   const [showOptions, setShowOptions] = useState({
     summary: false,
-    incomeHistory: false,
-    expenseHistory: false,
+    incomeHistory: true,
+    expenseHistory: true,
   });
 
   const toggleOption = (key) => {
@@ -152,8 +152,6 @@ function App() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {[
               { key: "summary", label: "Finance Summary" },
-              { key: "incomeHistory", label: "Income History" },
-              { key: "expenseHistory", label: "Expense History" },
             ].map((opt) => (
               <ToggleCard
                 key={opt.key}
@@ -182,51 +180,75 @@ function App() {
             <option value="expense">{t.expense}</option>
           </select>
           {/* Grid layout */}
-        <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Left Column: Inputs */}
-          <div className="col-span-1 flex flex-col gap-6">
-            {mode === "income" && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                  Add Income
-                </h2>
-                <IncomeForm onAddIncome={addIncome} />
-              </div>
-            )}
+<div className="mt-5">
+  {mode === "income" && (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Income Form (ซ้าย) */}
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition h-fit">
+        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+          Add Income
+        </h2>
+        <IncomeForm onAddIncome={addIncome} />
+      </div>
 
-            {mode === "expense" && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                  Add Expense
-                </h2>
-                <ExpenseForm onAddExpense={addExpense} />
-              </div>
-            )}
-          </div>
-        </div>
-        </div>
-
-        
-
-        
-        
-
-
-        
-
-        {/* Income Table */}
-        {showOptions.incomeHistory && (
-          <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition overflow-x-auto">
-            <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-              Income History
-            </h2>
+      {/* Income History (ขวา) */}
+      {showOptions.incomeHistory && (
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+            Income History
+          </h2>
+          <div className="h-[500px] overflow-y-auto">
             <IncomeTable
               incomes={incomes}
               onDeleteIncome={deleteIncome}
               onEditIncome={editIncome}
             />
           </div>
-        )}
+        </div>
+      )}
+    </div>
+  )}
+
+  {mode === "expense" && (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Expense Form (ซ้าย) */}
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+          Add Expense
+        </h2>
+        <ExpenseForm onAddExpense={addExpense} />
+      </div>
+
+      {/* Expense History (ขวา) */}
+      {showOptions.expenseHistory && (
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+            Expense History
+          </h2>
+          <div className="h-[500px] overflow-y-auto">
+            <ExpenseTable
+              expenses={expenses}
+              onDeleteExpense={deleteExpense}
+              onEditExpense={editExpense}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+</div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
 
         {/* Expense Table */}
         {showOptions.expenseHistory && (
