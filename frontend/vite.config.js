@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(), // ✅ สำคัญ
-  ],
+  plugins: [react(), tailwindcss()],
+  base: '/personal-finance-app/',
 })
+
