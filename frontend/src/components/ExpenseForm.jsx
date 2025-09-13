@@ -33,10 +33,12 @@ function ExpenseForm({ onAddExpense }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 bg-white p-4 rounded-xl"
+      className="flex flex-col gap-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md transition-colors"
     >
       {/* Title */}
-      <h2 className="text-lg font-semibold text-gray-700">{t.addExpense}</h2>
+      <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+        {t.addExpense}
+      </h2>
 
       {/* Row 1: Description + Amount */}
       <div className="flex gap-4 flex-wrap">
@@ -44,14 +46,20 @@ function ExpenseForm({ onAddExpense }) {
           type="text"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-gray-400"
+          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
+                     focus:ring-2 focus:ring-blue-500 focus:outline-none 
+                     placeholder-gray-400 dark:placeholder-gray-500"
           placeholder={t.placeholderDesc}
         />
         <input
           type="number"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-32 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-gray-400"
+          className="w-32 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
+                     focus:ring-2 focus:ring-blue-500 focus:outline-none 
+                     placeholder-gray-400 dark:placeholder-gray-500"
           placeholder={t.placeholderAmount}
         />
       </div>
@@ -61,7 +69,9 @@ function ExpenseForm({ onAddExpense }) {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
+                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
         >
           <option value="fixed">{t.categoryFixed}</option>
           <option value="food">{t.categoryFood}</option>
@@ -73,7 +83,9 @@ function ExpenseForm({ onAddExpense }) {
         <select
           value={priority}
           onChange={(e) => setPriority(e.target.value)}
-          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
+                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
+                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
         >
           <option value="necessary">{t.priorityNecessary}</option>
           <option value="important">{t.priorityImportant}</option>
@@ -83,12 +95,12 @@ function ExpenseForm({ onAddExpense }) {
 
       {/* Row 3: Flexible + Submit */}
       <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 text-gray-600">
+        <label className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
           <input
             type="checkbox"
             checked={flexible}
             onChange={(e) => setFlexible(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
           />
           {t.flexible}
         </label>

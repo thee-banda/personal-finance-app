@@ -10,21 +10,29 @@ function DashboardSummary({ income, expenses, target }) {
     : 0;
 
   return (
-    <div className="bg-white shadow-md rounded p-4 w-full max-w-md text-center">
-      <p>
+    <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 w-full max-w-md text-center transition-colors">
+      <p className="text-gray-800 dark:text-gray-100">
         {t.income}: {income} {t.currency}
       </p>
-      <p>
+      <p className="text-gray-800 dark:text-gray-100">
         {t.totalExpenses}: {totalExpense} {t.currency}
       </p>
-      <p className={balance >= 0 ? "text-green-600" : "text-red-600"}>
+      <p
+        className={`${
+          balance >= 0
+            ? "text-green-600 dark:text-green-400"
+            : "text-red-600 dark:text-red-400"
+        } font-medium`}
+      >
         {t.balance}: {balance} {t.currency}
       </p>
-      <p>
+      <p className="text-gray-800 dark:text-gray-100">
         {t.successChance}:{" "}
         <span
           className={
-            successPercent >= 80 ? "text-green-600" : "text-orange-500"
+            successPercent >= 80
+              ? "text-green-600 dark:text-green-400 font-semibold"
+              : "text-orange-500 dark:text-orange-400 font-semibold"
           }
         >
           {successPercent}%

@@ -36,10 +36,10 @@ function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-6 py-3 shadow-md transition">
+    <nav className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 px-6 py-4 shadow-md transition-colors">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* ชื่อเว็บ */}
-        <h1 className="font-bold text-lg text-blue-600 dark:text-blue-400">
+        <h1 className="font-bold text-xl text-blue-600 dark:text-blue-400 tracking-wide">
           {t.appName}
         </h1>
 
@@ -50,7 +50,9 @@ function Navbar() {
             value={pin}
             onChange={handlePinChange}
             placeholder={t.pinPlaceholder}
-            className="w-32 text-center px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-32 text-center px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                       bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 
+                       focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors"
             maxLength={6}
             inputMode="numeric"
           />
@@ -58,7 +60,7 @@ function Navbar() {
           {/* ปุ่มเปลี่ยนภาษา */}
           <button
             onClick={toggleLanguage}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md transition-colors"
           >
             {lang}
           </button>
@@ -66,7 +68,8 @@ function Navbar() {
           {/* ปุ่ม toggle theme */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+                       hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
             title="Toggle Dark Mode"
           >
             {darkMode ? "🌙" : "☀️"}
