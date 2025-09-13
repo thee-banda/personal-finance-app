@@ -15,5 +15,9 @@
     "totalExpense": "Total Expense: {{value}}",
     "balance": "Remaining Balance: {{value}}",
     "successRate": "Success Chance: {{value}}%"
-  }
+  },
+  "income": "Income",
+  "totalExpenses": "Total Expenses",
+  "balance": "Remaining Balance",
+  "successChance": "Success Chance"
 }

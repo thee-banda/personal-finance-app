@@ -15,5 +15,9 @@
     "totalExpense": "รายจ่ายรวม: {{value}} บาท",
     "balance": "เงินคงเหลือจริง: {{value}} บาท",
     "successRate": "โอกาสสำเร็จเป้า: {{value}}%"
-  }
+  },
+  "income": "รายรับ",
+  "totalExpenses": "รายจ่ายรวม",
+  "balance": "เงินคงเหลือจริง",
+  "successChance": "โอกาสบรรลุเป้า"
 }

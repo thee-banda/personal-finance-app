@@ -4,6 +4,7 @@ import ExpenseForm from "../components/ExpenseForm";
 import ExpenseTable from "../components/ExpenseTable";
 import DashboardSummary from "../components/DashboardSummary";
 import FinancePieChart from "../components/FinancePieChart";
+import Navbar from "../components/Navbar";
 
 function App() {
   const [income, setIncome] = useState(0);
@@ -48,9 +49,12 @@ function App() {
 
 
   return (
+  <div className="min-h-screen bg-gray-100">
+    {/* Navbar */}
+    <Navbar />
 
-    <div className="min-h-screen bg-gray-100 flex justify-center">
-
+    {/* Main content */}
+    <div className="flex justify-center">
       <div className="w-full max-w-3xl p-6">
         <h1 className="text-2xl font-bold text-center mb-6">
           Personal Finance App
@@ -66,7 +70,6 @@ function App() {
               income={income}
               expenses={expenses}
               target={target}
-              
             />
             <FinancePieChart income={income} expenses={expenses} />
           </div>
@@ -79,11 +82,12 @@ function App() {
           >
             Reset Data
           </button>
-
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default App;
