@@ -32,78 +32,73 @@ function ExpenseForm({ onAddExpense }) {
 
   return (
     <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 bg-white dark:bg-gray-800 p-4 rounded-xl shadow-md transition-colors"
-    >
-      {/* Title */}
-      <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-        {t.addExpense}
-      </h2>
+  onSubmit={handleSubmit}
+  className="flex flex-col gap-4"
+>
+  {/* Expense name */}
+  <input
+    type="text"
+    placeholder="e.g. Electricity bill"
+    value={name}
+    onChange={(e) => setName(e.target.value)}
+    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+               bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+  />
 
-      {/* Row 1: Description + Amount */}
-      <div className="flex flex-col sm:flex-row gap-4">
-        <input
-          type="text"
-          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-base sm:text-lg"
-          placeholder={t.placeholderDesc}
-        />
-        <input
-          type="number"
-          className="w-full sm:w-32 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-base sm:text-lg"
-          placeholder={t.placeholderAmount}
-        />
-      </div>
+  {/* Amount */}
+  <input
+    type="number"
+    placeholder="Amount"
+    value={amount}
+    onChange={(e) => setAmount(e.target.value)}
+    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+               bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+  />
 
+  {/* Category */}
+  <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+               bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+  >
+    <option>🏠 Fixed Expenses</option>
+    <option>🍔 Food & Essentials</option>
+    <option>🎮 Entertainment</option>
+    <option>💊 Health</option>
+  </select>
 
-      {/* Row 2: Category + Priority */}
-      <div className="flex gap-4 flex-wrap">
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
-                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option value="fixed">{t.categoryFixed}</option>
-          <option value="food">{t.categoryFood}</option>
-          <option value="entertainment">{t.categoryEntertainment}</option>
-          <option value="debt">{t.categoryDebt}</option>
-          <option value="health">{t.categoryHealth}</option>
-        </select>
+  {/* Priority */}
+  <select
+    value={priority}
+    onChange={(e) => setPriority(e.target.value)}
+    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 
+               bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100"
+  >
+    <option>Necessary</option>
+    <option>Optional</option>
+  </select>
 
-        <select
-          value={priority}
-          onChange={(e) => setPriority(e.target.value)}
-          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 
-                     bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100
-                     focus:ring-2 focus:ring-blue-500 focus:outline-none"
-        >
-          <option value="necessary">{t.priorityNecessary}</option>
-          <option value="important">{t.priorityImportant}</option>
-          <option value="optional">{t.priorityOptional}</option>
-        </select>
-      </div>
+  {/* Flexible checkbox */}
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={flexible}
+      onChange={(e) => setFlexible(e.target.checked)}
+      className="h-4 w-4"
+    />
+    Flexible
+  </label>
 
-      {/* Row 3: Flexible + Submit */}
-      <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-          <input
-            type="checkbox"
-            checked={flexible}
-            onChange={(e) => setFlexible(e.target.checked)}
-            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 dark:border-gray-600 rounded"
-          />
-          {t.flexible}
-        </label>
+  {/* Add button */}
+  <button
+    type="submit"
+    className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg font-semibold"
+  >
+    Add
+  </button>
+</form>
 
-        <button
-          type="submit"
-          className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg shadow-md transition"
-        >
-          {t.add}
-        </button>
-      </div>
-    </form>
   );
 }
 
