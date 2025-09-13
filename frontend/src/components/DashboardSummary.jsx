@@ -10,20 +10,35 @@ function DashboardSummary({ income, expenses, target }) {
     : 0;
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl p-4 sm:p-6 w-full max-w-md text-center space-y-3">
-      <p className="text-gray-700 dark:text-gray-200">{t.income}: {income} {t.currency}</p>
-      <p className="text-gray-700 dark:text-gray-200">{t.totalExpenses}: {totalExpense} {t.currency}</p>
-      <p className={balance >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}>
-        {t.balance}: {balance} {t.currency}
+    <div className="flex flex-col justify-center items-center text-center space-y-2">
+      <p className="text-gray-700 dark:text-gray-200 font-medium">
+        {t.income}: <span className="font-semibold">{income} {t.currency}</span>
       </p>
-      <p className="text-gray-700 dark:text-gray-200">
+      <p className="text-gray-700 dark:text-gray-200 font-medium">
+        {t.totalExpenses}: <span className="font-semibold">{totalExpense} {t.currency}</span>
+      </p>
+      <p
+        className={`font-medium ${
+          balance >= 0
+            ? "text-green-600 dark:text-green-400"
+            : "text-red-600 dark:text-red-400"
+        }`}
+      >
+        {t.balance}: <span className="font-semibold">{balance} {t.currency}</span>
+      </p>
+      <p className="text-gray-700 dark:text-gray-200 font-medium">
         {t.successChance}:{" "}
-        <span className={successPercent >= 80 ? "text-green-600 dark:text-green-400" : "text-orange-500 dark:text-orange-400"}>
+        <span
+          className={`font-bold ${
+            successPercent >= 80
+              ? "text-green-600 dark:text-green-400"
+              : "text-orange-500 dark:text-orange-400"
+          }`}
+        >
           {successPercent}%
         </span>
       </p>
     </div>
-
   );
 }
 
