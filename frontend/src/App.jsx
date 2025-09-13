@@ -3,7 +3,7 @@ import IncomeForm from "./components/IncomeForm";
 import IncomeTable from "./components/IncomeTable";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseTable from "./components/ExpenseTable";
-import TransactionTable from "./components/TransactionTable"; 
+import TransactionTable from "./components/TransactionTable";
 import DashboardSummary from "./components/DashboardSummary";
 import Navbar from "./components/Navbar";
 import ToggleCard from "./components/ToggleCard";
@@ -40,8 +40,8 @@ function App() {
 
     if (savedIncome) setIncome(Number(savedIncome));
     if (savedTarget) setTarget(Number(savedTarget));
-    if (savedIncomes) setIncomes(JSON.parse(savedIncomes) || []);   // ✅ fallback
-    if (savedExpenses) setExpenses(JSON.parse(savedExpenses) || []); // ✅ fallback
+    if (savedIncomes) setIncomes(JSON.parse(savedIncomes) || []);
+    if (savedExpenses) setExpenses(JSON.parse(savedExpenses) || []);
   }, []);
 
   // บันทึกลง localStorage
@@ -92,6 +92,7 @@ function App() {
       ...expenseItem,
       id: Date.now(),
       type: "expense",
+      color: expenseItem.color || "#8884d8", // ✅ default color
     };
     setExpenses((prev) => [...prev, item]);
   };
@@ -110,7 +111,7 @@ function App() {
 
   // --- Reset / Undo / Redo ---
   const handleReset = () => {
-    if (!window.confirm("คุณแน่ใจหรือไม่ที่จะรีเซ็ตข้อมูลทั้งหมด?")) return;
+    if (!window.confirm(t.confirmReset)) return;
     saveHistory();
     localStorage.clear();
     setIncome(0);
@@ -161,14 +162,14 @@ function App() {
 
       <main className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-3xl font-bold text-center mb-12 text-blue-600 dark:text-blue-400">
-          Personal Finance Dashboard
+          {t.dashboardTitle}
         </h1>
 
         {/* ✅ Checkbox Controls */}
         <div className="mb-5">
-          <h2 className="font-semibold mb-3">Show / Hide Sections</h2>
+          <h2 className="font-semibold mb-3">{t.showHideSections}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[{ key: "summary", label: "Finance Summary" }].map((opt) => (
+            {[{ key: "summary", label: "financeSummary" }].map((opt) => (
               <ToggleCard
                 key={opt.key}
                 label={opt.label}
@@ -203,7 +204,7 @@ function App() {
                 {/* Income Form */}
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition h-fit">
                   <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                    Add Income
+                    {t.addIncome}
                   </h2>
                   <IncomeForm onAddIncome={addIncome} />
                 </div>
@@ -212,7 +213,7 @@ function App() {
                 {showOptions.incomeHistory && (
                   <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                     <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                      Income History
+                      {t.incomeHistory}
                     </h2>
                     <div className="h-[500px] overflow-y-auto">
                       <IncomeTable
@@ -231,7 +232,7 @@ function App() {
                 {/* Expense Form */}
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                   <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                    Add Expense
+                    {t.addExpense}
                   </h2>
                   <ExpenseForm onAddExpense={addExpense} />
                 </div>
@@ -240,7 +241,7 @@ function App() {
                 {showOptions.expenseHistory && (
                   <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
                     <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
-                      Expense History
+                      {t.expenseHistory}
                     </h2>
                     <div className="h-[500px] overflow-y-auto">
                       <ExpenseTable

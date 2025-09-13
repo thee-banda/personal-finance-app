@@ -3,17 +3,17 @@ import { useI18n } from "../i18n.jsx";
 
 function ExpenseTable({ expenses, onDeleteExpense, onEditExpense }) {
   const { t } = useI18n();
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [editData, setEditData] = useState({ desc: "", amount: "", category: "" });
 
-  const handleEditClick = (index, expense) => {
-    setEditingIndex(index);
+  const handleEditClick = (expense) => {
+    setEditingId(expense.id);
     setEditData({ ...expense });
   };
 
   const handleSaveEdit = () => {
-    onEditExpense(editingIndex, editData);
-    setEditingIndex(null);
+    onEditExpense(editingId, editData);
+    setEditingId(null);
   };
 
   return (
@@ -28,15 +28,15 @@ function ExpenseTable({ expenses, onDeleteExpense, onEditExpense }) {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((e, i) => (
-            <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+          {expenses.map((e) => (
+            <tr key={e.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
               <td className="px-4 py-2">{e.desc}</td>
               <td className="px-4 py-2">{e.amount} {t.currency}</td>
               <td className="px-4 py-2">{e.category}</td>
               <td className="px-4 py-2 flex gap-2">
                 {/* Edit */}
                 <button
-                  onClick={() => handleEditClick(i, e)}
+                  onClick={() => handleEditClick(e)}
                   className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
                 >
                   ✏️
@@ -44,8 +44,8 @@ function ExpenseTable({ expenses, onDeleteExpense, onEditExpense }) {
                 {/* Delete */}
                 <button
                   onClick={() => {
-                    if (window.confirm("ต้องการลบรายการนี้หรือไม่?")) {
-                      onDeleteExpense(i);
+                    if (window.confirm(t.confirmDeleteExpense)) {
+                      onDeleteExpense(e.id);
                     }
                   }}
                   className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
@@ -59,64 +59,67 @@ function ExpenseTable({ expenses, onDeleteExpense, onEditExpense }) {
       </table>
 
       {/* Popup Modal แก้ไข */}
-{editingIndex !== null && (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
-      <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
-        {t.editExpense}
-      </h3>
+      {editingId !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
+              {t.editExpense}
+            </h3>
 
-      <input
-        type="text"
-        value={editData.desc}
-        onChange={(e) => setEditData({ ...editData, desc: e.target.value })}
-        className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
-        placeholder={t.details}
-      />
+            <input
+              type="text"
+              value={editData.desc}
+              onChange={(e) => setEditData({ ...editData, desc: e.target.value })}
+              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              placeholder={t.details}
+            />
 
-      <input
-        type="number"
-        value={editData.amount}
-        onChange={(e) => setEditData({ ...editData, amount: Number(e.target.value) })}
-        className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
-        placeholder={t.amount}
-      />
+            <input
+              type="number"
+              value={editData.amount}
+              onChange={(e) =>
+                setEditData({ ...editData, amount: Number(e.target.value) })
+              }
+              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              placeholder={t.amount}
+            />
 
-      <input
-        type="text"
-        value={editData.category}
-        onChange={(e) => setEditData({ ...editData, category: e.target.value })}
-        className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
-        placeholder={t.category}
-      />
+            <input
+              type="text"
+              value={editData.category}
+              onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              placeholder={t.category}
+            />
 
-      {/* 🎨 Color Picker */}
-      <label className="block mb-2 text-gray-700 dark:text-gray-200">สี</label>
-      <input
-        type="color"
-        value={editData.color || "#8884d8"}
-        onChange={(e) => setEditData({ ...editData, color: e.target.value })}
-        className="w-16 h-10 border rounded mb-3"
-      />
+            {/* 🎨 Color Picker */}
+            <label className="block mb-2 text-gray-700 dark:text-gray-200">
+              {t.color}
+            </label>
+            <input
+              type="color"
+              value={editData.color || "#8884d8"}
+              onChange={(e) => setEditData({ ...editData, color: e.target.value })}
+              className="w-16 h-10 border rounded mb-3"
+            />
 
-      <div className="flex justify-end gap-3 mt-4">
-        <button
-          onClick={() => setEditingIndex(null)}
-          className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
-        >
-          {t.cancel}
-        </button>
-        <button
-          onClick={handleSaveEdit}
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-        >
-          {t.save}
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+            <div className="flex justify-end gap-3 mt-4">
+              <button
+                onClick={() => setEditingId(null)}
+                className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+              >
+                {t.cancel}
+              </button>
+              <button
+                onClick={handleSaveEdit}
+                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                {t.save}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

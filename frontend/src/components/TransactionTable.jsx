@@ -37,41 +37,23 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
           </tr>
         </thead>
         <tbody>
-          {(transactions || []).map((tx) => (
-            <tr key={tx.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-              <td className="px-4 py-2">{tx.desc}</td>
-              <td className="px-4 py-2">
-                <span
-                  className={tx.type === "income" ? "text-green-600" : "text-red-500"}
-                >
-                  {tx.amount.toLocaleString()} {t.currency}
-                </span>
-              </td>
-              <td className="px-4 py-2">{tx.category}</td>
-              <td className="px-4 py-2">
-                {tx.type === "income" ? `💰 ${t.income}` : `💸 ${t.expense}`}
-              </td>
-              <td className="px-4 py-2 flex gap-2">
-                <button
-                  onClick={() => handleEditClick(tx)}
-                  className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                  ✏️
-                </button>
-                <button
-                  onClick={() => {
-                    if (window.confirm(t.confirmDeleteTransaction)) {
-                      onDelete(tx);
-                    }
-                  }}
-                  className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
-                >
-                  🗑️
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {(transactions || []).map((tx, i) => (
+    <tr key={`${tx.type}-${tx.id}-${i}`} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+      <td className="px-4 py-2">{tx.desc}</td>
+      <td className="px-4 py-2">
+        <span className={tx.type === "income" ? "text-green-600" : "text-red-500"}>
+          {tx.amount.toLocaleString()} {t.currency}
+        </span>
+      </td>
+      <td className="px-4 py-2">{tx.category}</td>
+      <td className="px-4 py-2">
+        {tx.type === "income" ? `💰 ${t.income}` : `💸 ${t.expense}`}
+      </td>
+      <td className="px-4 py-2 flex gap-2"> ... </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
 
       {/* 🔹 Edit Modal */}

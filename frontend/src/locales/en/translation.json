@@ -39,7 +39,6 @@
   "categoryEntertainment": "🎮 Entertainment",
   "categoryDebt": "💳 Debt",
   "categoryHealth": "💊 Health",
-  "addExpense": "Add Expense",
   "details": "Details",
   "amount": "Amount",
   "actions": "Actions",
@@ -58,8 +57,14 @@
   "categoryInvestment": "📈 Investment",
   "categoryOther": "Other",
   "customCategoryPlaceholder": "Enter custom category...",
-  "addIncome": "Add Income",
   "editIncome": "Edit Income",
   "confirmDeleteIncome": "Do you want to delete this income?",
-  "saveIncome": "Save Income"
+  "saveIncome": "Save Income",
+  "dashboardTitle": "Personal Finance Dashboard",
+  "showHideSections": "Show / Hide Sections",
+  "confirmReset": "Are you sure you want to reset all data?",
+  "addIncome": "Add Income",
+  "incomeHistory": "Income History",
+  "addExpense": "Add Expense",
+  "expenseHistory": "Expense History"
 }
