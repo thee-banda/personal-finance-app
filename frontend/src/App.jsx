@@ -167,9 +167,8 @@ function App() {
 
         {/* ✅ Checkbox Controls */}
         <div className="mb-5">
-          <h2 className="font-semibold mb-3">{t.showHideSections}</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {[{ key: "summary", label: "financeSummary" }].map((opt) => (
+            {[{ key: "summary", label: "Show financeSummary" }].map((opt) => (
               <ToggleCard
                 key={opt.key}
                 label={opt.label}
