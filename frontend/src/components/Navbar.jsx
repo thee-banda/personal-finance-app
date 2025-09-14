@@ -41,7 +41,8 @@ function Navbar() {
         <h1 className="font-bold text-lg sm:text-xl text-blue-600 dark:text-blue-400">{t.appName}</h1>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <input
+          
+          {/* <input
             type="password"
             value={pin}
             onChange={handlePinChange}
@@ -49,15 +50,15 @@ function Navbar() {
             className="w-28 sm:w-32 text-center px-2 sm:px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             maxLength={6}
             inputMode="numeric"
-          />
-
+          /> */}
+          {/* Swith Language EN/TH button*/}
           <button
             onClick={toggleLanguage}
             className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-2 rounded-lg transition"
           >
             {lang}
           </button>
-
+          {/* Swith Theme button*/}
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
