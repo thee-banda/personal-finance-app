@@ -7,9 +7,25 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/personal-finance-app/favicon-16x16.png">
   <link rel="manifest" href="/personal-finance-app/site.webmanifest">
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Personal Finance App</title>
-  <script type="module" crossorigin src="/personal-finance-app/assets/index-BzMUxUfb.js"></script>
-  <link rel="stylesheet" crossorigin href="/personal-finance-app/assets/index-DO6pym58.css">
+  <script>
+    // Prevent FOUC by applying theme before React loads
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      // Default to dark theme for all browsers
+      const shouldUseDark = savedTheme === 'dark' || (!savedTheme && true);
+      
+      if (shouldUseDark) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+  <script type="module" crossorigin src="/personal-finance-app/assets/index-ChWNxGHB.js"></script>
+  <link rel="stylesheet" crossorigin href="/personal-finance-app/assets/index-FyfSTLHq.css">
 </head>
 
 <body>
