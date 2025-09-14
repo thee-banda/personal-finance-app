@@ -97,6 +97,16 @@ function App() {
   };
 
   // --- Expense handlers ---
+  // สุ่มสี HEX
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
   const addExpense = (expenseItem) => {
     saveHistory();
     const item = {
@@ -104,7 +114,7 @@ function App() {
       id: Date.now(),
       createdAt: new Date().toISOString(),
       type: "expense",
-      color: expenseItem.color || "#8884d8", // ✅ default color
+      color: expenseItem.color || getRandomColor(), // ✅ random color
     };
     setExpenses((prev) => [...prev, item]);
   };
@@ -179,7 +189,7 @@ function App() {
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 flex flex-col">
       <Navbar />
 
-  <main className="w-full max-w-3xl mx-auto px-2 sm:px-4 lg:px-8 py-8 sm:py-12 lg:py-16 bg-gray-900/80 rounded-none shadow-2xl backdrop-blur-md flex-1">
+  <main className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-16 bg-gray-900/80 rounded-2xl shadow-2xl backdrop-blur-md flex-1">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-10 lg:mb-14 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 drop-shadow-lg">
           {t.appTitle}
         </h1>
@@ -194,7 +204,7 @@ function App() {
         </div>
 
         {/* Dropdown เลือกโหมด */}
-  <div className="bg-gray-800 p-4 sm:p-6 rounded-none shadow-md mb-4 sm:mb-6 w-full">
+        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md mb-4 sm:mb-6">
           <label className="block mb-2 font-semibold text-gray-100 text-sm sm:text-base">
             {t.selectMode}
           </label>
@@ -211,9 +221,9 @@ function App() {
           {/* Grid layout */}
           <div className="mt-4 sm:mt-5">
             {mode === "income" && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 w-full">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Income Form */}
-                <div className="bg-gray-800 p-4 sm:p-6 rounded-none shadow-md hover:shadow-lg transition h-fit w-full">
+                <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition h-fit">
                   <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                     {t.addIncome}
                   </h2>
@@ -222,7 +232,7 @@ function App() {
 
                 {/* Income History */}
                 {showOptions.incomeHistory && (
-                  <div className="bg-gray-800 p-4 sm:p-6 rounded-none shadow-md hover:shadow-lg transition w-full">
+                  <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
                     <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                       {t.incomeHistory}
                     </h2>
@@ -241,7 +251,7 @@ function App() {
             {mode === "expense" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Expense Form */}
-                <div className="bg-gray-800 p-4 sm:p-6 rounded-none shadow-md hover:shadow-lg transition w-full">
+                <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
                   <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                     {t.addExpense}
                   </h2>
@@ -250,7 +260,7 @@ function App() {
 
                 {/* Expense History */}
                 {showOptions.expenseHistory && (
-                  <div className="bg-gray-800 p-4 sm:p-6 rounded-none shadow-md hover:shadow-lg transition w-full">
+                  <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
                     <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                       {t.expenseHistory}
                     </h2>
@@ -289,7 +299,7 @@ function App() {
 
         {/* ✅ Dashboard Summary Card */}
         {showOptions.summary && (
-          <div className="mt-8 sm:mt-10 lg:mt-12 bg-gray-800 p-4 sm:p-6 rounded-none shadow-md hover:shadow-lg transition w-full">
+          <div className="mt-8 sm:mt-10 lg:mt-12 bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
             <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-100">
               {t.financeSummary}
             </h2>
