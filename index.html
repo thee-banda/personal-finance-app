@@ -8,24 +8,13 @@
   <link rel="manifest" href="/personal-finance-app/site.webmanifest">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#3b82f6" />
+  <meta name="theme-color" content="#1f2937" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Personal Finance App</title>
-  <script>
-    // Prevent FOUC by applying theme before React loads
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      // Default to dark theme for all browsers
-      const shouldUseDark = savedTheme === 'dark' || (!savedTheme && true);
-      
-      if (shouldUseDark) {
-        document.documentElement.classList.add('dark');
-      }
-    })();
-  </script>
-  <script type="module" crossorigin src="/personal-finance-app/assets/index-DPft-gv3.js"></script>
-  <link rel="stylesheet" crossorigin href="/personal-finance-app/assets/index-BcpE6vJT.css">
+  <!-- Dark theme enforced by default -->
+  <script type="module" crossorigin src="/personal-finance-app/assets/index-CelN1FjB.js"></script>
+  <link rel="stylesheet" crossorigin href="/personal-finance-app/assets/index-BDveQCuq.css">
 </head>
 
 <body>
