@@ -179,7 +179,7 @@ function App() {
   <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 flex flex-col">
       <Navbar />
 
-  <main className="w-full px-0 sm:px-0 lg:px-0 py-8 sm:py-12 lg:py-16 bg-gray-900/80 rounded-none shadow-2xl backdrop-blur-md flex-1">
+  <main className="w-full max-w-3xl mx-auto px-2 sm:px-4 lg:px-8 py-8 sm:py-12 lg:py-16 bg-gray-900/80 rounded-none shadow-2xl backdrop-blur-md flex-1">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-10 lg:mb-14 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 drop-shadow-lg">
           {t.appTitle}
         </h1>
