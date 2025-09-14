@@ -17,6 +17,7 @@ function Footer() {
           &copy; {new Date().getFullYear()} thee-banda. All rights reserved.
         </p>
         <div className="mt-4 text-xs text-gray-400 flex flex-wrap items-center justify-center gap-3">
+          <div className="w-full text-center text-green-400 font-semibold mb-2">รองรับการใช้งานข้ามแพลตฟอร์ม (Mobile Friendly)</div>
           <span className="font-semibold text-blue-400">เทคโนโลยีที่ใช้:</span>
           <span className="flex items-center gap-1">
             {/* React */}
