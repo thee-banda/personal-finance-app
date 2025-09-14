@@ -3,17 +3,16 @@ import IncomeForm from "./components/IncomeForm";
 import IncomeTable from "./components/IncomeTable";
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseTable from "./components/ExpenseTable";
-import TransactionTable from "./components/TransactionTable";
 import DashboardSummary from "./components/DashboardSummary";
+import TransactionTable from "./components/TransactionTable";
+// Removed theme-related imports
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import ToggleCard from "./components/ToggleCard";
-import ThemeSettings from "./components/ThemeSettings";
 import { useI18n } from "./i18n.jsx";
-import { useTheme } from "./contexts/ThemeContext.jsx";
 
 function App() {
   const { t } = useI18n();
-  const { darkMode, isLoading } = useTheme();
 
   const [income, setIncome] = useState(0);
   const [target, setTarget] = useState(0);
@@ -26,12 +25,11 @@ function App() {
   // ✅ state สำหรับ show/hide
   const [showOptions, setShowOptions] = useState({
     summary: true,
-    incomeHistory: true,
+  // Removed theme settings modal state
     expenseHistory: true,
   });
 
-  // Theme settings modal
-  const [showThemeSettings, setShowThemeSettings] = useState(false);
+  // ...existing code...
 
   const toggleOption = (key) => {
     setShowOptions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -168,10 +166,7 @@ function App() {
     ...(Array.isArray(expenses) ? expenses : []),
   ].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-  // 🌀 กัน flicker ตอนโหลด theme
-  if (isLoading) {
-    return <div className="min-h-screen bg-gray-50 dark:bg-gray-900" />;
-  }
+  // ...existing code...
 
   // ToggleCard options
   const optionList = [
@@ -181,11 +176,11 @@ function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
+  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-100 flex flex-col">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-10">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-10 lg:mb-12 text-blue-600 dark:text-blue-400">
+  <main className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-8 sm:py-12 lg:py-16 bg-gray-900/80 rounded-2xl shadow-2xl backdrop-blur-md flex-1">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-center mb-10 lg:mb-14 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-purple-400 drop-shadow-lg">
           {t.appTitle}
         </h1>
 
@@ -199,16 +194,14 @@ function App() {
         </div>
 
         {/* Dropdown เลือกโหมด */}
-        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md mb-4 sm:mb-6">
-          <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200 text-sm sm:text-base">
+        <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md mb-4 sm:mb-6">
+          <label className="block mb-2 font-semibold text-gray-100 text-sm sm:text-base">
             {t.selectMode}
           </label>
           <select
             value={mode}
             onChange={(e) => setMode(e.target.value)}
-            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 sm:px-4 py-2 sm:py-3 
-                       bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm sm:text-base
-                       focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            className="w-full border border-gray-700 rounded-lg px-3 sm:px-4 py-2 sm:py-3 bg-gray-800 text-gray-100 text-sm sm:text-base focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">{t.selectPlaceholder}</option>
             <option value="income">{t.income}</option>
@@ -220,8 +213,8 @@ function App() {
             {mode === "income" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Income Form */}
-                <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition h-fit">
-                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
+                <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition h-fit">
+                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                     {t.addIncome}
                   </h2>
                   <IncomeForm onAddIncome={addIncome} />
@@ -229,8 +222,8 @@ function App() {
 
                 {/* Income History */}
                 {showOptions.incomeHistory && (
-                  <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
+                  <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                       {t.incomeHistory}
                     </h2>
                     <div className="h-[400px] sm:h-[500px] overflow-y-auto">
@@ -248,8 +241,8 @@ function App() {
             {mode === "expense" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Expense Form */}
-                <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
-                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
+                <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                     {t.addExpense}
                   </h2>
                   <ExpenseForm onAddExpense={addExpense} />
@@ -257,8 +250,8 @@ function App() {
 
                 {/* Expense History */}
                 {showOptions.expenseHistory && (
-                  <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
+                  <div className="bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-100">
                       {t.expenseHistory}
                     </h2>
                     <div className="h-[400px] sm:h-[500px] overflow-y-auto">
@@ -296,8 +289,8 @@ function App() {
 
         {/* ✅ Dashboard Summary Card */}
         {showOptions.summary && (
-          <div className="mt-8 sm:mt-10 lg:mt-12 bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
-            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-700 dark:text-gray-200">
+          <div className="mt-8 sm:mt-10 lg:mt-12 bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-100">
               {t.financeSummary}
             </h2>
             <DashboardSummary
@@ -311,11 +304,7 @@ function App() {
         )}
       </main>
 
-      {/* Theme Settings Modal */}
-      <ThemeSettings
-        isOpen={showThemeSettings}
-        onClose={() => setShowThemeSettings(false)}
-      />
+  <Footer />
     </div>
   );
 }

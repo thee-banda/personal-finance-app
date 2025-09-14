@@ -62,11 +62,6 @@ html {
   color-scheme: dark;
 }
 
-/* Light mode override when explicitly set */
-html:not(.dark) {
-  color-scheme: light;
-}
-
 /* Print styles */
 @media print {
   .no-print {

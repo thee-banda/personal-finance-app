@@ -66,5 +66,11 @@
   "addIncome": "Add Income",
   "incomeHistory": "Income History",
   "addExpense": "Add Expense",
-  "expenseHistory": "Expense History"
+  "expenseHistory": "Expense History",
+  "benefit": "Benefit",
+  "salary": "Salary",
+  "bonus": "Bonus",
+  "investment": "Investment",
+  "other": "Other"
+  
 }

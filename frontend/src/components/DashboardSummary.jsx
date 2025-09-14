@@ -2,13 +2,13 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useI18n } from "../i18n.jsx";
 import { useEffect, useRef, useState } from "react";
-import { useTheme } from "../contexts/ThemeContext";
+// ...existing code...
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 function DashboardSummary({ income, expenses, target, showSummary = true, showPie = true }) {
   const { t } = useI18n();
-  const { darkMode } = useTheme(); // ✅ ใช้ darkMode จาก context
+  // ...existing code...
   const chartRef = useRef(null);
   const [gradients, setGradients] = useState([]);
 
@@ -71,7 +71,7 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
               ...expenses.map((e) => e.color || "#3b82f6"), // ✅ ใช้สีจาก expenses
             ]
           : ["#9ca3af"],
-        borderColor: darkMode ? "#1f2937" : "#ffffff",
+  borderColor: "#1f2937",
         borderWidth: 2,
         hoverBackgroundColor: hasData
           ? [
@@ -80,7 +80,7 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
               ...expenses.map((e) => e.color || "#2563eb"), // ✅ darker colors on hover
             ]
           : ["#6b7280"],
-        hoverBorderColor: darkMode ? "#374151" : "#e5e7eb",
+  hoverBorderColor: "#374151",
         hoverBorderWidth: 3,
       },
     ],
@@ -100,7 +100,7 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
       legend: {
         position: "bottom",
         labels: {
-          color: darkMode ? "#e5e7eb" : "#374151",
+          color: "#e5e7eb",
           font: {
             size: 12,
             weight: "500",
@@ -111,10 +111,10 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
         },
       },
       tooltip: {
-        backgroundColor: darkMode ? "#1f2937" : "#ffffff",
-        titleColor: darkMode ? "#e5e7eb" : "#374151",
-        bodyColor: darkMode ? "#e5e7eb" : "#374151",
-        borderColor: darkMode ? "#374151" : "#e5e7eb",
+  backgroundColor: "#1f2937",
+  titleColor: "#e5e7eb",
+  bodyColor: "#e5e7eb",
+  borderColor: "#374151",
         borderWidth: 1,
         cornerRadius: 8,
         displayColors: true,
@@ -143,9 +143,9 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
     elements: {
       arc: {
         borderWidth: 2,
-        borderColor: darkMode ? "#1f2937" : "#ffffff",
+  borderColor: "#1f2937",
         hoverBorderWidth: 3,
-        hoverBorderColor: darkMode ? "#374151" : "#e5e7eb",
+  hoverBorderColor: "#374151",
       },
     },
   };
@@ -157,15 +157,14 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
         <div className="flex-1">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {/* Income Card */}
-            <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 
-                           border border-green-200 dark:border-green-700 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-200">
+            <div className="bg-gradient-to-br from-green-900/80 via-gray-900/80 to-green-700/80 border border-green-400 rounded-2xl p-4 shadow-2xl backdrop-blur-md bg-opacity-80">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 dark:bg-green-600 rounded-lg flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-400 animate-pulse rounded-lg flex items-center justify-center shadow-md">
                   <span className="text-white text-lg sm:text-xl">💰</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium truncate">{t.income}</p>
-                  <p className="text-lg sm:text-xl font-bold text-green-600 dark:text-green-400 truncate">
+                  <p className="text-xs sm:text-sm text-green-300 font-medium truncate">{t.income}</p>
+                  <p className="text-lg sm:text-xl font-bold text-green-400 drop-shadow-neon-green truncate">
                     {income.toLocaleString()} {t.currency}
                   </p>
                 </div>
@@ -173,15 +172,14 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
             </div>
 
             {/* Expenses Card */}
-            <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 
-                           border border-red-200 dark:border-red-700 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-200">
+            <div className="bg-gradient-to-br from-pink-900/80 via-gray-900/80 to-pink-700/80 border border-pink-400 rounded-2xl p-4 shadow-2xl backdrop-blur-md bg-opacity-80">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-500 dark:bg-red-600 rounded-lg flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-pink-400 animate-pulse rounded-lg flex items-center justify-center shadow-md">
                   <span className="text-white text-lg sm:text-xl">💸</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium truncate">{t.totalExpenses}</p>
-                  <p className="text-lg sm:text-xl font-bold text-red-600 dark:text-red-400 truncate">
+                  <p className="text-xs sm:text-sm text-pink-300 font-medium truncate">{t.totalExpenses}</p>
+                  <p className="text-lg sm:text-xl font-bold text-pink-400 drop-shadow-neon-pink truncate">
                     {totalExpense.toLocaleString()} {t.currency}
                   </p>
                 </div>
@@ -189,28 +187,14 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
             </div>
 
             {/* Balance Card */}
-            <div
-              className={`bg-gradient-to-br ${
-                balance >= 0
-                  ? "from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 border-emerald-200 dark:border-emerald-700"
-                  : "from-red-50 to-red-100 dark:from-red-900/20 dark:to-red-800/20 border-red-200 dark:border-red-700"
-              } border rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-200`}
-            >
+            <div className="bg-gradient-to-br from-cyan-900/80 via-gray-900/80 to-cyan-700/80 border border-cyan-400 rounded-2xl p-4 shadow-2xl backdrop-blur-md bg-opacity-80">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 ${
-                    balance >= 0 ? "bg-emerald-500 dark:bg-emerald-600" : "bg-red-500 dark:bg-red-600"
-                  } rounded-lg flex items-center justify-center shadow-sm`}
-                >
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 ${balance >= 0 ? "bg-cyan-400 animate-pulse" : "bg-red-500 animate-pulse"} rounded-lg flex items-center justify-center shadow-md`}>
                   <span className="text-white text-lg sm:text-xl">{balance >= 0 ? "📈" : "📉"}</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium truncate">{t.balance}</p>
-                  <p
-                    className={`text-lg sm:text-xl font-bold ${
-                      balance >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"
-                    } truncate`}
-                  >
+                  <p className="text-xs sm:text-sm text-cyan-300 font-medium truncate">{t.balance}</p>
+                  <p className={`text-lg sm:text-xl font-bold ${balance >= 0 ? "text-cyan-400 drop-shadow-neon-cyan" : "text-red-400 drop-shadow-neon-pink"} truncate`}>
                     {balance.toLocaleString()} {t.currency}
                   </p>
                 </div>
@@ -218,19 +202,14 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
             </div>
 
             {/* Success Rate Card */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 
-                           border border-blue-200 dark:border-blue-700 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-all duration-200">
+            <div className="bg-gradient-to-br from-blue-900/80 via-gray-900/80 to-blue-700/80 border border-blue-400 rounded-2xl p-4 shadow-2xl backdrop-blur-md bg-opacity-80">
               <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-500 dark:bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-400 animate-pulse rounded-lg flex items-center justify-center shadow-md">
                   <span className="text-white text-lg sm:text-xl">🎯</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium truncate">{t.successChance}</p>
-                  <p
-                    className={`text-lg sm:text-xl font-bold ${
-                      successPercent >= 80 ? "text-green-600 dark:text-green-400" : "text-orange-500 dark:text-orange-400"
-                    } truncate`}
-                  >
+                  <p className="text-xs sm:text-sm text-blue-300 font-medium truncate">{t.successChance}</p>
+                  <p className={`text-lg sm:text-xl font-bold ${successPercent >= 80 ? "text-green-400 drop-shadow-neon-green" : "text-orange-400 drop-shadow-neon-orange"} truncate`}>
                     {successPercent}%
                   </p>
                 </div>
@@ -243,38 +222,35 @@ function DashboardSummary({ income, expenses, target, showSummary = true, showPi
       {/* 🔹 Pie Chart */}
       {showPie && (
         <div className="flex-1 w-full">
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-800/20 
-                         border border-blue-200 dark:border-blue-700 rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200">
+          <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/80 to-blue-900/80 border-2 border-blue-500 rounded-full p-6 shadow-2xl backdrop-blur-md bg-opacity-80 flex items-center justify-center relative group">
+            <div className="absolute inset-0 rounded-full pointer-events-none group-hover:shadow-[0_0_40px_10px_rgba(59,130,246,0.5)] transition-all duration-300"></div>
             <div className="text-center mb-4 sm:mb-6">
               <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-500 dark:bg-blue-600 rounded-lg flex items-center justify-center shadow-sm">
-                  <span className="text-white text-sm sm:text-lg">📊</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-700 dark:text-gray-200">{t.financeSummary}</h2>
               </div>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Visual breakdown of your financial data</p>
             </div>
 
-            <div className="relative h-64 sm:h-72 lg:h-80 w-full">
-              <Doughnut
-                key={`${darkMode}-${JSON.stringify(data)}`} // ✅ rerender เมื่อ theme/data เปลี่ยน
-                ref={chartRef}
-                data={data}
-                options={options}
-              />
+            <div className="relative h-64 sm:h-72 lg:h-80 w-full flex items-center justify-center">
+              <div className="transition-transform duration-300 group-hover:scale-105">
+                <Doughnut
+                  key={JSON.stringify(data)}
+                  ref={chartRef}
+                  data={data}
+                  options={options}
+                />
+              </div>
             </div>
 
             {/* Chart Legend Enhancement */}
             {hasData && (
-              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-blue-200 dark:border-blue-700">
+              <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-700">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-600"></div>
-                    <span className="text-gray-600 dark:text-gray-400">{t.income}</span>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="text-gray-400">{t.income}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-400 to-red-600"></div>
-                    <span className="text-gray-600 dark:text-gray-400">{t.totalExpenses}</span>
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <span className="text-gray-400">{t.totalExpenses}</span>
                   </div>
                 </div>
               </div>

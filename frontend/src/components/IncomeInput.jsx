@@ -14,7 +14,7 @@ function IncomeInput({ setIncome, setTarget }) {
   return (
     <div className="mb-4">
       {/* Income */}
-      <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-200">
+  <label className="block mb-1 font-semibold text-gray-100">
         {t.incomeLabel}
       </label>
       <input
@@ -22,14 +22,11 @@ function IncomeInput({ setIncome, setTarget }) {
         placeholder={t.incomePlaceholder}
         value={incomeValue}
         onChange={(e) => setIncomeValue(e.target.value)}
-        className="border border-gray-300 dark:border-gray-600 p-2 rounded w-full mb-2 
-                   bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800
-                   focus:outline-none"
+        className="border border-gray-700 p-2 rounded w-full mb-2 bg-gray-800 text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
       />
 
       {/* Target */}
-      <label className="block mb-1 font-semibold text-gray-700 dark:text-gray-200">
+  <label className="block mb-1 font-semibold text-gray-100">
         {t.targetLabel}
       </label>
       <input
@@ -37,17 +34,12 @@ function IncomeInput({ setIncome, setTarget }) {
         placeholder={t.targetPlaceholder}
         value={targetValue}
         onChange={(e) => setTargetValue(e.target.value)}
-        className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-3 text-base sm:text-lg 
-                   bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800
-                   focus:outline-none mb-3"
+        className="w-full border border-gray-700 rounded-lg px-4 py-3 text-base sm:text-lg bg-gray-800 text-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none mb-3"
       />
 
       <button
         onClick={handleSave}
-        className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700
-                   text-white px-5 sm:px-6 py-3 rounded-lg shadow-md text-base sm:text-lg font-semibold transition
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+        className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 text-white px-5 sm:px-6 py-3 rounded-lg shadow-md text-base sm:text-lg font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       >
         {t.save}
       </button>

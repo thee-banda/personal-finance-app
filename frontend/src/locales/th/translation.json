@@ -66,5 +66,10 @@
   "addIncome": "เพิ่มรายรับ",
   "incomeHistory": "ประวัติรายรับ",
   "addExpense": "เพิ่มรายจ่าย",
-  "expenseHistory": "ประวัติรายจ่าย"
+  "expenseHistory": "ประวัติรายจ่าย",
+  "benefit": "ประโยชน์",
+  "salary": "เงินเดือน",
+  "bonus": "โบนัส",
+  "investment": "การลงทุน",
+  "other": "อื่นๆ"
 }
