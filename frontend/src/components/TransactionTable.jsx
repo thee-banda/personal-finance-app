@@ -95,7 +95,9 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               type="text"
               value={editData.desc}
               onChange={(e) => setEditData({ ...editData, desc: e.target.value })}
-              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
+                         bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder={t.details}
             />
 
@@ -105,7 +107,9 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               onChange={(e) =>
                 setEditData({ ...editData, amount: Number(e.target.value) })
               }
-              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
+                         bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder={t.amount}
             />
 
@@ -115,7 +119,9 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               onChange={(e) =>
                 setEditData({ ...editData, category: e.target.value })
               }
-              className="w-full border px-3 py-2 rounded mb-3 dark:bg-gray-700 dark:text-gray-100"
+              className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
+                         bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
+                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
               placeholder={t.category}
             />
 
@@ -130,27 +136,33 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
                 onChange={(e) =>
                   setEditData({ ...editData, color: e.target.value })
                 }
-                className="w-16 h-10 border rounded mb-3"
+                className="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 
+                           bg-white dark:bg-gray-700"
               />
             ) : (
               <input
                 type="color"
                 value={editData.color || "#8884d8"}
                 disabled
-                className="w-16 h-10 border rounded mb-3 opacity-50 cursor-not-allowed"
+                className="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 
+                           bg-white dark:bg-gray-700 opacity-50 cursor-not-allowed"
               />
             )}
 
             <div className="flex justify-end gap-3 mt-4">
               <button
                 onClick={() => setEditingTx(null)}
-                className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                className="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 
+                           transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 
+                           dark:focus:ring-offset-gray-800"
               >
                 {t.cancel}
               </button>
               <button
                 onClick={handleSave}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 
+                           transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 
+                           dark:focus:ring-offset-gray-800"
               >
                 {t.save}
               </button>

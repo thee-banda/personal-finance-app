@@ -7,10 +7,14 @@ import TransactionTable from "./components/TransactionTable";
 import DashboardSummary from "./components/DashboardSummary";
 import Navbar from "./components/Navbar";
 import ToggleCard from "./components/ToggleCard";
+import ThemeToggle from "./components/ThemeToggle";
+import ThemeSettings from "./components/ThemeSettings";
 import { useI18n } from "./i18n.jsx";
+import { useTheme } from "./contexts/ThemeContext.jsx";
 
 function App() {
   const { t } = useI18n();
+  const { darkMode, isLoading } = useTheme();
   const [income, setIncome] = useState(0);
   const [target, setTarget] = useState(0);
   const [incomes, setIncomes] = useState([]);
@@ -26,6 +30,9 @@ function App() {
     incomeHistory: true,
     expenseHistory: true,
   });
+
+  // Theme settings modal
+  const [showThemeSettings, setShowThemeSettings] = useState(false);
 
   const toggleOption = (key) => {
     setShowOptions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -160,14 +167,14 @@ function App() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-center mb-12 text-blue-600 dark:text-blue-400">
+      <main className="max-w-6xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-10">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 sm:mb-10 lg:mb-12 text-blue-600 dark:text-blue-400">
           {t.dashboardTitle}
         </h1>
 
         {/* ✅ Checkbox Controls */}
-        <div className="mb-5">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div className="mb-4 sm:mb-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {[{ key: "summary", label: "Show financeSummary" }].map((opt) => (
               <ToggleCard
                 key={opt.key}
@@ -176,20 +183,31 @@ function App() {
                 onChange={() => toggleOption(opt.key)}
               />
             ))}
+            
+            {/* Theme Settings Toggle */}
+            <div
+              onClick={() => setShowThemeSettings(true)}
+              className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-4 py-3 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer border border-gray-200 dark:border-gray-600"
+            >
+              <div className="w-5 h-5 flex items-center justify-center">
+                <span className="text-lg">{darkMode ? '🌙' : '☀️'}</span>
+              </div>
+              <span className="font-medium text-gray-700 dark:text-gray-200">Theme Settings</span>
+            </div>
           </div>
         </div>
 
         {/* Dropdown เลือกโหมด */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md mb-6">
-          <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">
+        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md mb-4 sm:mb-6">
+          <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-200 text-sm sm:text-base">
             {t.selectMode}
           </label>
           <select
             value={mode}
             onChange={(e) => setMode(e.target.value)}
-            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 
-                       bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
-                       focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 sm:px-4 py-2 sm:py-3 
+                       bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-sm sm:text-base
+                       focus:ring-2 focus:ring-blue-500 focus:outline-none"
           >
             <option value="">{t.selectPlaceholder}</option>
             <option value="income">{t.income}</option>
@@ -197,12 +215,12 @@ function App() {
           </select>
 
           {/* Grid layout */}
-          <div className="mt-5">
+          <div className="mt-4 sm:mt-5">
             {mode === "income" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Income Form */}
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition h-fit">
-                  <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition h-fit">
+                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
                     {t.addIncome}
                   </h2>
                   <IncomeForm onAddIncome={addIncome} />
@@ -210,11 +228,11 @@ function App() {
 
                 {/* Income History */}
                 {showOptions.incomeHistory && (
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                  <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
                       {t.incomeHistory}
                     </h2>
-                    <div className="h-[500px] overflow-y-auto">
+                    <div className="h-[400px] sm:h-[500px] overflow-y-auto">
                       <IncomeTable
                         incomes={incomes}
                         onDeleteIncome={deleteIncome}
@@ -227,10 +245,10 @@ function App() {
             )}
 
             {mode === "expense" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {/* Expense Form */}
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                  <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                  <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
                     {t.addExpense}
                   </h2>
                   <ExpenseForm onAddExpense={addExpense} />
@@ -238,11 +256,11 @@ function App() {
 
                 {/* Expense History */}
                 {showOptions.expenseHistory && (
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-                    <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">
+                  <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+                    <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
                       {t.expenseHistory}
                     </h2>
-                    <div className="h-[500px] overflow-y-auto">
+                    <div className="h-[400px] sm:h-[500px] overflow-y-auto">
                       <ExpenseTable
                         expenses={expenses}
                         onDeleteExpense={deleteExpense}
@@ -277,8 +295,8 @@ function App() {
 
         {/* ✅ Dashboard Summary Card */}
         {showOptions.summary && (
-          <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
-            <h2 className="text-xl font-bold mb-6 text-gray-700 dark:text-gray-200">
+          <div className="mt-8 sm:mt-10 lg:mt-12 bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition">
+            <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6 text-gray-700 dark:text-gray-200">
               {t.financeSummary}
             </h2>
             <DashboardSummary
@@ -291,6 +309,12 @@ function App() {
           </div>
         )}
       </main>
+
+      {/* Theme Settings Modal */}
+      <ThemeSettings 
+        isOpen={showThemeSettings} 
+        onClose={() => setShowThemeSettings(false)} 
+      />
     </div>
   );
 }
