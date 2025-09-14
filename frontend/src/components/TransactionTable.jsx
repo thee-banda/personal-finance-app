@@ -37,9 +37,9 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
           </tr>
         </thead>
         <tbody>
-          {(transactions || []).map((tx, i) => (
+          {(transactions || []).map((tx) => (
             <tr
-              key={`${tx.type}-${tx.id}-${i}`}
+              key={tx.id}
               className="hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               <td className="px-4 py-2">{tx.desc}</td>
@@ -54,26 +54,24 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
               </td>
               <td className="px-4 py-2">{tx.category}</td>
               <td className="px-4 py-2">
-                {tx.type === "income"
-                  ? `💰 ${t.income}`
-                  : `💸 ${t.expense}`}
+                {tx.type === "income" ? `💰 ${t.income}` : `💸 ${t.expense}`}
               </td>
               <td className="px-4 py-2 flex gap-2">
-                {/* ✅ ปุ่ม Edit */}
                 <button
                   onClick={() => handleEditClick(tx)}
-                  className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 
+                             focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                 >
                   ✏️
                 </button>
-                {/* ✅ ปุ่ม Delete */}
                 <button
                   onClick={() => {
                     if (window.confirm(t.confirmDeleteTransaction)) {
                       onDelete(tx);
                     }
                   }}
-                  className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+                  className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600
+                             focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                 >
                   🗑️
                 </button>
@@ -85,8 +83,14 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
 
       {/* 🔹 Edit Modal */}
       {editingTx && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+          onClick={() => setEditingTx(null)} // ✅ ปิด modal เมื่อกด backdrop
+        >
+          <div
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80"
+            onClick={(e) => e.stopPropagation()} // กันไม่ให้ modal ปิดตอนคลิกข้างใน
+          >
             <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
               {t.edit}
             </h3>
@@ -129,25 +133,18 @@ function TransactionTable({ transactions, onDelete, onEdit }) {
             <label className="block mb-2 text-gray-700 dark:text-gray-200">
               {t.color}
             </label>
-            {editData.type === "expense" ? (
-              <input
-                type="color"
-                value={editData.color || "#8884d8"}
-                onChange={(e) =>
-                  setEditData({ ...editData, color: e.target.value })
-                }
-                className="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 
-                           bg-white dark:bg-gray-700"
-              />
-            ) : (
-              <input
-                type="color"
-                value={editData.color || "#8884d8"}
-                disabled
-                className="w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 
-                           bg-white dark:bg-gray-700 opacity-50 cursor-not-allowed"
-              />
-            )}
+            <input
+              type="color"
+              value={editData.color || "#8884d8"}
+              disabled={editData.type !== "expense"}
+              onChange={(e) =>
+                setEditData({ ...editData, color: e.target.value })
+              }
+              className={`w-16 h-10 border border-gray-300 dark:border-gray-600 rounded-lg mb-3 
+                         bg-white dark:bg-gray-700 ${
+                           editData.type !== "expense" ? "opacity-50 cursor-not-allowed" : ""
+                         }`}
+            />
 
             <div className="flex justify-end gap-3 mt-4">
               <button

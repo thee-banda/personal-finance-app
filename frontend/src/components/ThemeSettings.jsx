@@ -25,7 +25,7 @@ const ThemeSettings = ({ isOpen, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
@@ -34,7 +34,8 @@ const ThemeSettings = ({ isOpen, onClose }) => {
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
             aria-label="Close theme settings"
           >
             <span className="text-gray-500 dark:text-gray-400">✕</span>
@@ -47,7 +48,7 @@ const ThemeSettings = ({ isOpen, onClose }) => {
             <div
               key={option.id}
               onClick={() => setTheme(option.id === 'dark')}
-              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+              className={`relative p-4 rounded-xl border-2 cursor-pointer transition-colors duration-200 ${
                 darkMode === (option.id === 'dark')
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                   : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
@@ -69,10 +70,10 @@ const ThemeSettings = ({ isOpen, onClose }) => {
                   </div>
                 )}
               </div>
-              
+
               {/* Preview */}
               {showPreview && (
-                <div className={`mt-3 p-3 rounded-lg ${option.preview} transition-all duration-300`}>
+                <div className={`mt-3 p-3 rounded-lg ${option.preview} transition-colors duration-300`}>
                   <div className="flex items-center space-x-2">
                     <div className="w-3 h-3 rounded-full bg-blue-500"></div>
                     <div className="w-3 h-3 rounded-full bg-green-500"></div>
@@ -87,9 +88,11 @@ const ThemeSettings = ({ isOpen, onClose }) => {
           {/* Preview Toggle */}
           <button
             onClick={() => setShowPreview(!showPreview)}
-            className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="w-full p-3 rounded-lg border border-gray-200 dark:border-gray-700 
+                       hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <span className="text-sm text-gray-600 dark:text-gray-400">
+            <span className="text-sm text-gray-700 dark:text-gray-300">
               {showPreview ? 'Hide' : 'Show'} Theme Previews
             </span>
           </button>
@@ -97,7 +100,8 @@ const ThemeSettings = ({ isOpen, onClose }) => {
           {/* Reset Button */}
           <button
             onClick={resetToDefault}
-            className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
             <span className="text-sm text-gray-700 dark:text-gray-300">
               Reset to Default (Dark)

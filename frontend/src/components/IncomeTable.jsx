@@ -18,7 +18,7 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
 
   return (
     <div>
-      <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+      <table className="w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
         <thead className="bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
           <tr>
             <th className="px-4 py-2 text-left">{t.details}</th>
@@ -29,16 +29,18 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
         </thead>
         <tbody>
           {incomes.map((income, i) => (
-            <tr key={income.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-              <td className="px-4 py-2">{income.desc}</td>
-              <td className="px-4 py-2">
+            <tr key={income.id} className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              <td className="px-4 py-2 text-gray-800 dark:text-gray-100">{income.desc}</td>
+              <td className="px-4 py-2 text-gray-800 dark:text-gray-100">
                 {income.amount.toLocaleString()} {t.currency}
               </td>
-              <td className="px-4 py-2">{income.category}</td>
+              <td className="px-4 py-2 text-gray-800 dark:text-gray-100">{income.category}</td>
               <td className="px-4 py-2 flex gap-2">
                 <button
                   onClick={() => handleEditClick(i, income)}
-                  className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-2 py-1 text-sm bg-blue-500 hover:bg-blue-600 
+                             dark:bg-blue-600 dark:hover:bg-blue-700 
+                             text-white rounded transition-colors"
                 >
                   ✏️
                 </button>
@@ -48,7 +50,9 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
                       onDeleteIncome(income.id);
                     }
                   }}
-                  className="px-2 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+                  className="px-2 py-1 text-sm bg-red-500 hover:bg-red-600 
+                             dark:bg-red-600 dark:hover:bg-red-700 
+                             text-white rounded transition-colors"
                 >
                   🗑️
                 </button>
@@ -60,7 +64,7 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
 
       {/* 🔹 Edit Modal */}
       {editingIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-80">
             <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">
               {t.editIncome}
@@ -72,31 +76,30 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
               onChange={(e) => setEditData({ ...editData, desc: e.target.value })}
               className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
                          bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
-                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                         focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800
+                         focus:outline-none"
               placeholder={t.details}
             />
 
             <input
               type="number"
               value={editData.amount}
-              onChange={(e) =>
-                setEditData({ ...editData, amount: Number(e.target.value) })
-              }
+              onChange={(e) => setEditData({ ...editData, amount: Number(e.target.value) })}
               className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
                          bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
-                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                         focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800
+                         focus:outline-none"
               placeholder={t.amount}
             />
 
             <input
               type="text"
               value={editData.category}
-              onChange={(e) =>
-                setEditData({ ...editData, category: e.target.value })
-              }
+              onChange={(e) => setEditData({ ...editData, category: e.target.value })}
               className="w-full border border-gray-300 dark:border-gray-600 px-3 py-2 rounded-lg mb-3 
                          bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 
-                         focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                         focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 dark:focus:ring-offset-gray-800
+                         focus:outline-none"
               placeholder={t.category}
             />
 
@@ -123,8 +126,9 @@ function IncomeTable({ incomes, onDeleteIncome, onEditIncome }) {
               </button>
               <button
                 onClick={handleSaveEdit}
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 
-                           transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 
+                className="px-4 py-2 bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700
+                           text-white rounded-lg transition-colors duration-200 focus:outline-none 
+                           focus:ring-2 focus:ring-green-500 focus:ring-offset-2 
                            dark:focus:ring-offset-gray-800"
               >
                 {t.save}

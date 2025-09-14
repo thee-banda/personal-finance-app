@@ -91,12 +91,14 @@ function ExpenseForm({ onAddExpense }) {
 
       <button
         type="submit"
-        className="bg-red-500 hover:bg-red-600 text-white rounded-lg px-4 py-2 
-                   transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 
-                   dark:focus:ring-offset-gray-800"
+        className="bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700
+             text-white rounded-lg px-4 py-2 transition-colors duration-200
+             focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 
+             dark:focus:ring-offset-gray-800"
       >
         {t.addExpense}
       </button>
+
     </form>
   );
 }

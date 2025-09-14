@@ -12,87 +12,69 @@ export const useTheme = () => {
 
 export const ThemeProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(() => {
-    // Check localStorage first
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
     }
-    // Default to dark theme
+    // default → dark
     return true;
   });
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // Apply theme to document
+  // Apply theme
   useEffect(() => {
-    const applyTheme = () => {
-      const theme = darkMode ? 'dark' : 'light';
-      
-      // Remove any existing theme classes
-      document.documentElement.classList.remove('dark', 'light');
-      
-      // Add the current theme class
-      if (darkMode) {
-        document.documentElement.classList.add('dark');
-      }
-      
-      // Update meta theme-color for mobile browsers
-      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-      if (metaThemeColor) {
-        metaThemeColor.content = darkMode ? '#1f2937' : '#3b82f6';
-      }
-      
-      // Save to localStorage
-      localStorage.setItem('theme', theme);
-      
-      // Update CSS custom properties for smooth transitions
-      document.documentElement.style.setProperty('--theme-transition', 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)');
-      
-      setIsLoading(false);
-    };
+    const theme = darkMode ? 'dark' : 'light';
 
-    applyTheme();
+    document.documentElement.classList.remove('dark', 'light');
+    document.documentElement.classList.add(theme);
+
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.content = darkMode ? '#1f2937' : '#3b82f6';
+    }
+
+    localStorage.setItem('theme', theme);
+
+    // smooth transition
+    document.documentElement.style.setProperty(
+      '--theme-transition',
+      'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+    );
+
+    setIsLoading(false);
   }, [darkMode]);
 
-  // Listen for system theme changes
+  // Listen system theme changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleChange = (e) => {
-      // Only update if no theme is saved in localStorage
+    const handler = (e) => {
       if (!localStorage.getItem('theme')) {
-        setDarkMode(true); // Keep dark as default
+        setDarkMode(e.matches);
       }
     };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
   }, []);
 
-  const toggleTheme = () => {
-    setDarkMode(prev => !prev);
-  };
-
-  const setTheme = (isDark) => {
-    setDarkMode(isDark);
-  };
-
+  const toggleTheme = () => setDarkMode((prev) => !prev);
+  const setTheme = (isDark) => setDarkMode(isDark);
   const resetToDefault = () => {
     localStorage.removeItem('theme');
-    setDarkMode(true);
-  };
-
-  const value = {
-    darkMode,
-    isLoading,
-    toggleTheme,
-    setTheme,
-    resetToDefault,
-    theme: darkMode ? 'dark' : 'light'
+    setDarkMode(true); // fallback default
   };
 
   return (
-    <ThemeContext.Provider value={value}>
+    <ThemeContext.Provider
+      value={{
+        darkMode,
+        isLoading,
+        toggleTheme,
+        setTheme,
+        resetToDefault,
+        theme: darkMode ? 'dark' : 'light',
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
