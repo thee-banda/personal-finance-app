@@ -48,6 +48,8 @@
   "save": "Save",
   "color": "Color",
   "confirmDeleteExpense": "Do you want to delete this expense?",
+  "confirmDeleteTransaction": "Do you want to delete this transaction?",
+  "confirm": "Confirm",
   "incomeNamePlaceholder": "Income name",
   "amountPlaceholder": "Amount",
   "category": "Category",

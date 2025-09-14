@@ -48,6 +48,8 @@
   "save": "บันทึก",
   "color": "สี",
   "confirmDeleteExpense": "ต้องการลบรายการนี้หรือไม่?",
+  "confirmDeleteTransaction": "ต้องการลบรายการนี้หรือไม่?",
+  "confirm": "ตกลง",
   "incomeNamePlaceholder": "ชื่อรายรับ",
   "amountPlaceholder": "จำนวนเงิน",
   "category": "หมวดหมู่",
