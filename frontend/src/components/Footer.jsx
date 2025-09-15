@@ -11,7 +11,7 @@ function Footer() {
           คำอธิบายเว็บ: แอพนี้ช่วยให้คุณติดตามรายรับ รายจ่าย และวางแผนเป้าหมายทางการเงินได้อย่างมีประสิทธิภาพ พร้อมกราฟสรุปและฟีเจอร์ทันสมัย
         </p>
         <p className="text-xs text-blue-400 mt-2">
-          * เว็บไซต์นี้ออกแบบและปรับแต่งสไตล์ด้วยความช่วยเหลือจาก AI เพื่อความสวยงามและทันสมัย
+          * เว็บไซต์นี้ออกแบบและปรับแต่งสไตล์ด้วย CSS Framework Tailwind CSS เพื่อความสวยงามและทันสมัย
         </p>
         <p className="text-xs mt-3 text-gray-500">
           &copy; {new Date().getFullYear()} thee-banda. All rights reserved.
@@ -38,11 +38,6 @@ function Footer() {
             {/* Vite */}
             <svg viewBox="0 0 32 32" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="vite1" x1="6" y1="6" x2="26" y2="26" gradientUnits="userSpaceOnUse"><stop stopColor="#41D1FF"/><stop offset="1" stopColor="#BD34FE"/></linearGradient></defs><path d="M16 2l14 6-14 22L2 8l14-6z" fill="url(#vite1)"/><path d="M16 2v26" stroke="#fff" strokeWidth="2"/></svg>
             Vite
-          </span>
-          <span className="flex items-center gap-1">
-            {/* AI (Copilot) */}
-            <svg viewBox="0 0 32 32" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="16" fill="#10B981"/><text x="16" y="21" textAnchor="middle" fontSize="13" fill="#fff" fontFamily="Arial">AI</text></svg>
-            AI (Copilot)
           </span>
         </div>
         <div className="mt-4">
