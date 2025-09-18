@@ -5,7 +5,7 @@ function Footer() {
     <footer className="w-full mt-12 py-6 px-4 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-gray-300 text-center rounded-t-2xl shadow-xl backdrop-blur-md">
       <div className="max-w-4xl mx-auto">
         <p className="text-base font-medium mb-2">
-          Personal Finance App - จัดการรายรับรายจ่ายและเป้าหมายการเงินของคุณอย่างง่ายดาย
+          Personal Finance App - จัดการรายรับรายจ่ายและเป้าหมายการเงินของคุณอย่างง่า0ยดาย
         </p>
         <p className="text-sm text-gray-400">
           คำอธิบายเว็บ: แอพนี้ช่วยให้คุณติดตามรายรับ รายจ่าย และวางแผนเป้าหมายทางการเงินได้อย่างมีประสิทธิภาพ พร้อมกราฟสรุปและฟีเจอร์ทันสมัย
